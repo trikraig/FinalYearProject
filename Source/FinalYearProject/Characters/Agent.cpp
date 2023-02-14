@@ -9,8 +9,10 @@ AAgent::AAgent()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-#ifndef _TECH1
+	//Setup Needs System Component
+	NeedsSystemComponent = CreateDefaultSubobject<UNeedsSystem>(TEXT("Needs System Component"));
 
+#ifndef _TECH1
 	//Setup Action Planner Component
 	ActionPlannerComponent = CreateDefaultSubobject<UActionPlanner>(TEXT("Technique 1 Action Planner Component"));
 #endif

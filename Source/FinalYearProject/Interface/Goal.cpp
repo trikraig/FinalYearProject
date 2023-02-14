@@ -3,7 +3,3 @@
 
 #include "Goal.h"
 
-Goal::Goal(FString _Name) : Name(_Name)
-{
-}
-

@@ -7,6 +7,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "FinalYearProject/Core/Defines.h"
+#include "FinalYearProject/Interface/NeedsSystem.h"
 #include "Agent.generated.h"
 
 UCLASS()
@@ -23,6 +24,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public: /*Variables*/
+
+	class UNeedsSystem* NeedsSystemComponent;
 
 #ifndef _TECH1
 	//Declare Technique 1 Action Planner

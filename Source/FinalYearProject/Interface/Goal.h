@@ -3,19 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
+#include "Goal.generated.h"
 
-/**
-	Will be individual Goal, will be contained in Needs System as a TArray.
-	Should be easy to increase
-	Will need Name, Values etc
- */
-class FINALYEARPROJECT_API Goal
+UCLASS()
+class FINALYEARPROJECT_API UGoal : public UObject
 {
+	GENERATED_BODY()
+
 public: /*Variables*/
-
-	FString Name; //Energy, Hunger, etc...
-	float Value = 0.0f; //0 - Need Met, 1 - Need Needs fulfillment
-
-public: /*Functions*/
-	Goal(FString _Name);
+	FString Name;
+	float Value;
+	
 };

@@ -3,23 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Goal.h"
+#include "UObject/NoExportTypes.h"
+#include "Action.generated.h"
 
-/**
-  Effect an Action will have. 
-
-  #TODO - Need to handle multiple values and needs.
-
- */
-class FINALYEARPROJECT_API Action
+UCLASS()
+class FINALYEARPROJECT_API UAction : public UObject
 {
+	GENERATED_BODY()
+
 public: /*Variables*/
+FString Name = TEXT("Example");
+float Value = 0.1f;
 
-	FString Name; //Sleep, Eat, etc...
-	float Value = 1.0f; //Amount will have an effect on a Need.
+/*Functions*/
 
-public: /*Functions*/
-	Action(FString _Name, float _Value);
-	float GetGoalChange(const Goal& goal);
-
+float GetGoalChange(const class UGoal& _Goal);
+	
 };

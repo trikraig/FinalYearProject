@@ -1,14 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Action.h"
+#include "Goal.h"
 
-Action::Action(FString _Name, float _Value) : Name(_Name), Value(_Value)
+float UAction::GetGoalChange(const UGoal& _Goal)
 {
+	return _Goal.Value - Value;
 }
-
-float Action::GetGoalChange(const Goal& goal)
-{
-	return goal.Value - Value;
-}
-
