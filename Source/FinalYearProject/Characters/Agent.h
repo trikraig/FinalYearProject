@@ -25,6 +25,7 @@ protected:
 
 public: /*Variables*/
 
+	UPROPERTY(BlueprintReadWrite)
 	class UNeedsSystem* NeedsSystemComponent;
 
 #ifndef _TECH1

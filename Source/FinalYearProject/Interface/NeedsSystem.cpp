@@ -11,6 +11,9 @@ UNeedsSystem::UNeedsSystem()
 
 	// TODO - Populate Needs Array
 
+	UGoal EnergyGoal(FName(TEXT("Energy")), 0.0f);
+	Needs.Add(&EnergyGoal);
+
 
 }
 
@@ -20,8 +23,9 @@ void UNeedsSystem::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	// Populate Needs
+
+
 }
 
 
@@ -30,6 +34,20 @@ void UNeedsSystem::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	//Tick Needs
+	for (int i = 0; i < Needs.Num(); i++)
+	{
+		UGoal* Need = Needs[i];
+
+		Tick_Goal(DeltaTime, Need);
+	}
+}
+
+void UNeedsSystem::Tick_Goal(float DeltaTime, UGoal* Goal)
+{
+	//Increase goal value by delta time and clamp at max value.
+	Goal->Value = FMath::Clamp(Goal->Value += DeltaTime, 0.0f, 1.0f);
+
+	//Check if should be action?
 }
 

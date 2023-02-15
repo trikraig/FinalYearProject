@@ -12,7 +12,13 @@ class FINALYEARPROJECT_API UGoal : public UObject
 	GENERATED_BODY()
 
 public: /*Variables*/
-	FString Name;
-	float Value;
+
+	FName Name;
+	float Value = 0.0F;
+
+public: /*Functions*/
+
+	UGoal();
+	UGoal(FName _Name, float _Value);
 	
 };
