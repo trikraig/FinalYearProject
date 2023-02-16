@@ -19,7 +19,7 @@ public:
 public: /*Variables*/
 
 	UPROPERTY(EditAnywhere)
-	TArray<UGoal*> Needs;
+	TArray<TObjectPtr<UGoal>> Needs;
 
 protected:
 	// Called when the game starts
