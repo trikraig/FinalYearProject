@@ -19,6 +19,4 @@ public: /*Variables*/
 public: /*Functions*/
 
 	UGoal();
-	UGoal(FName _Name, float _Value);
-	
 };

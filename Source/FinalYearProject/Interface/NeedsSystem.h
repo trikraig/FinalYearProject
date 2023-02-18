@@ -15,6 +15,7 @@ class FINALYEARPROJECT_API UNeedsSystem : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UNeedsSystem();
+	~UNeedsSystem();
 
 public: /*Variables*/
 

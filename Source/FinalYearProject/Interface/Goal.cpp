@@ -5,11 +5,12 @@
 
 UGoal::UGoal()
 {
+
 }
 
-UGoal::UGoal(FName _Name, float _Value)
-{
-	Name = _Name;
-	Value = _Value;
-}
+//UGoal::UGoal(FName _Name, float _Value)
+//{
+//	Name = _Name;
+//	Value = _Value;
+//}
 

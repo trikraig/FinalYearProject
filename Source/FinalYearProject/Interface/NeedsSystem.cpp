@@ -9,25 +9,29 @@ UNeedsSystem::UNeedsSystem()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// TODO - Populate Needs Array
-
-	UGoal EnergyGoal(FName(TEXT("Energy")), 0.0f);
-	Needs.Add(&EnergyGoal);
-
+	// Populate Needs
+	UGoal* NewGoal = NewObject<UGoal>(UGoal::StaticClass());
+	Needs.Add(NewGoal);
 
 }
 
+UNeedsSystem::~UNeedsSystem()
+{
+	//for (int i = 0; i < Needs.Num(); i++)
+	//{
+	//	UGoal* Need = Needs[i];
+
+	//	delete Need;
+	//}
+}
 
 // Called when the game starts
 void UNeedsSystem::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Populate Needs
-
 
 }
-
 
 // Called every frame
 void UNeedsSystem::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
