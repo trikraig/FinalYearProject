@@ -10,27 +10,16 @@ UNeedsSystem::UNeedsSystem()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// Populate Needs
-	UGoal* NewGoal = NewObject<UGoal>(UGoal::StaticClass());
-	Needs.Add(NewGoal);
 
-}
-
-UNeedsSystem::~UNeedsSystem()
-{
-	//for (int i = 0; i < Needs.Num(); i++)
-	//{
-	//	UGoal* Need = Needs[i];
-
-	//	delete Need;
-	//}
+	FNeed NewNeed;
+	NewNeed.Name = TEXT("Energy");
+	Needs.Add(NewNeed);
 }
 
 // Called when the game starts
 void UNeedsSystem::BeginPlay()
 {
 	Super::BeginPlay();
-
-
 }
 
 // Called every frame
@@ -41,17 +30,16 @@ void UNeedsSystem::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	//Tick Needs
 	for (int i = 0; i < Needs.Num(); i++)
 	{
-		UGoal* Need = Needs[i];
-
-		Tick_Goal(DeltaTime, Need);
+		Tick_Goal(DeltaTime, Needs[i]);
 	}
 }
 
-void UNeedsSystem::Tick_Goal(float DeltaTime, UGoal* Goal)
+void UNeedsSystem::Tick_Goal(float DeltaTime, FNeed& Goal)
 {
 	//Increase goal value by delta time and clamp at max value.
-	Goal->Value = FMath::Clamp(Goal->Value += DeltaTime, 0.0f, 1.0f);
+	Goal.Value = FMath::Clamp(Goal.Value += DeltaTime, 0.0f, 1.0f);
 
 	//Check if should be action?
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Goal: %s, Value: %f"), *Goal.Name, Goal.Value));
 }
 

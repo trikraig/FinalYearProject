@@ -4,8 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "FinalYearProject/Interface/Goal.h"
 #include "NeedsSystem.generated.h"
+
+USTRUCT()
+struct FNeed
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	FString Name = "Need";
+
+	UPROPERTY()
+	float Value = 0.0f;
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class FINALYEARPROJECT_API UNeedsSystem : public UActorComponent
@@ -15,12 +26,11 @@ class FINALYEARPROJECT_API UNeedsSystem : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UNeedsSystem();
-	~UNeedsSystem();
 
 public: /*Variables*/
 
 	UPROPERTY(EditAnywhere)
-	TArray<TObjectPtr<UGoal>> Needs;
+	TArray<FNeed> Needs;
 
 protected:
 	// Called when the game starts
@@ -30,6 +40,6 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void Tick_Goal(float DeltaTime, UGoal* Goal); 
+	void Tick_Goal(float DeltaTime, FNeed& Goal); 
 		
 };
