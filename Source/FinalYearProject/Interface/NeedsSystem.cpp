@@ -41,7 +41,7 @@ void UNeedsSystem::Tick_Goal(float DeltaTime, FNeed& Goal)
 	Goal.Value = FMath::Clamp((Goal.Value += DeltaTime), 0.0f, 100.0f);
 
 	//Check if should be action?
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Goal: %s, Value: %f"), *Goal.Name, Goal.Value));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Goal: %s, Value: %f"), *Goal.Name, Goal.Value));
 
 	
 }

@@ -19,7 +19,7 @@ class FINALYEARPROJECT_API AProvider : public AStation
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
-	TEnumAsByte<ResourceTypes> InputResource;
+	uint8 InputResource;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
 	TEnumAsByte<NeedTypes> OutputNeed;

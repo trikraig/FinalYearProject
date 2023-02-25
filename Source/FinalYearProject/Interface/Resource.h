@@ -7,30 +7,26 @@
 #include "Resource.generated.h"
 
 UENUM()
-enum ResourceTypes
+enum class EResourceType : uint8
 {
-	RAWFOOD,
-	INGREDIENTS,
-	FOOD
+	RawFood,
+	Ingredients,
+	Food,
+	Count UMETA(Hidden)
 };
 
-UCLASS()
-class FINALYEARPROJECT_API AResource : public AActor
-{
-	GENERATED_BODY()
-	
+ENUM_RANGE_BY_COUNT(EResourceType, EResourceType::Count);
+
+class FINALYEARPROJECT_API Resource 
+{	
 public:	
 	// Sets default values for this actor's properties
-	AResource();
+	Resource();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
 	FString Name = "Resource";
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
-	TEnumAsByte<ResourceTypes> Type = RAWFOOD;
+	uint8 Type;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	int32 Quantity = 0;
 
 };
