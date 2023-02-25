@@ -23,6 +23,15 @@ void AStation::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (Workers.Num() > 0)
+	{
+		//Check Progress
+
+		//Increase by DeltaTime
+
+		//If greater than Max Value, Cause Output Result - Make this Virtual
+	}
+
 }
 
 bool AStation::AddWorker(AAgent* Worker)

@@ -22,7 +22,8 @@ struct FNeed
 	UPROPERTY()
 	FString Name = "Need";
 
-	int32 Type;
+	UPROPERTY()
+	TEnumAsByte<NeedTypes> Type;
 
 	UPROPERTY()
 	float Value = 0.0f;
