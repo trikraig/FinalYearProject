@@ -6,6 +6,14 @@
 #include "Components/ActorComponent.h"
 #include "NeedsSystem.generated.h"
 
+UENUM()
+enum NeedTypes
+{
+	NONE = 0	UMETA(Hidden),
+	ENERGY,
+	NUM			UMETA(Hidden)
+};
+
 USTRUCT()
 struct FNeed
 {
@@ -14,8 +22,12 @@ struct FNeed
 	UPROPERTY()
 	FString Name = "Need";
 
+	int32 Type;
+
 	UPROPERTY()
 	float Value = 0.0f;
+
+	float GetDiscontentment(float NewValue) const;
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -31,6 +43,9 @@ public: /*Variables*/
 
 	UPROPERTY(EditAnywhere)
 	TArray<FNeed> Needs;
+
+	UPROPERTY(BlueprintReadOnly)
+	float TimeTick = 0.0f;
 
 protected:
 	// Called when the game starts

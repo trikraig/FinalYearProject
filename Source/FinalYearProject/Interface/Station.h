@@ -4,16 +4,25 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Provider.generated.h"
+#include "FinalYearProject/Characters/Agent.h"
+#include "Station.generated.h"
 
 UCLASS()
-class FINALYEARPROJECT_API AProvider : public AActor
+class FINALYEARPROJECT_API AStation : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AProvider();
+	AStation();
+
+	UPROPERTY()
+	TArray<AAgent*> Workers;
+
+	UPROPERTY()
+	float fProgress = 0.0f;
+	UPROPERTY()
+	float fProgressRate = 1.0f;
 
 protected:
 	// Called when the game starts or when spawned
@@ -22,5 +31,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION()
+	bool AddWorker(AAgent* Worker);
 
 };

@@ -33,6 +33,11 @@ public: /*Variables*/
 	class UActionPlanner* ActionPlannerComponent;
 #endif
 
+	UPROPERTY()
+	class AActor* Target;
+
+	UPROPERTY()
+	float Speed = 10.0f;
 
 public:	/*Functions*/
 	// Called every frame
@@ -41,4 +46,8 @@ public:	/*Functions*/
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+protected:
+
+	FVector Direction;
 };

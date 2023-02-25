@@ -13,6 +13,7 @@ UNeedsSystem::UNeedsSystem()
 
 	FNeed NewNeed;
 	NewNeed.Name = TEXT("Energy");
+	NewNeed.Type = ENERGY;
 	Needs.Add(NewNeed);
 }
 
@@ -37,9 +38,15 @@ void UNeedsSystem::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 void UNeedsSystem::Tick_Goal(float DeltaTime, FNeed& Goal)
 {
 	//Increase goal value by delta time and clamp at max value.
-	Goal.Value = FMath::Clamp(Goal.Value += GetWorld()->GetDeltaSeconds(), 0.0f, 100.0f);
+	Goal.Value = FMath::Clamp((Goal.Value += DeltaTime), 0.0f, 100.0f);
 
 	//Check if should be action?
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Goal: %s, Value: %f"), *Goal.Name, Goal.Value));
+
+	
 }
 
+float FNeed::GetDiscontentment(float NewValue) const
+{
+	return NewValue * NewValue; //????
+}

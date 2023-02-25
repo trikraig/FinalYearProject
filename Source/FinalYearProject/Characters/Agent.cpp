@@ -31,6 +31,12 @@ void AAgent::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//Do we have an action?
+
+	//Act upon that action.
+
+
+
 }
 
 // Called to bind functionality to input
