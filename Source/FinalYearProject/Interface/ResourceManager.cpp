@@ -43,7 +43,7 @@ void AResourceManager::BeginPlay()
 		Resource* NewResource = new Resource;
 		NewResource->Name = GetName(ResourceType);
 		NewResource->Quantity = 0;
-		NewResource->Type = static_cast<uint8> (ResourceType);
+		NewResource->Type = ResourceType; // static_cast<uint8> (ResourceType);
 		Resources.Add(NewResource);
 	}
 	

@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Resource.generated.h"
 
-UENUM()
+UENUM(BlueprintType)
 enum class EResourceType : uint8
 {
 	RawFood,
@@ -25,7 +25,7 @@ public:
 
 	FString Name = "Resource";
 
-	uint8 Type;
+	EResourceType Type;
 
 	int32 Quantity = 0;
 
