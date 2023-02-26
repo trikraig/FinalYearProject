@@ -10,11 +10,13 @@ UNeedsSystem::UNeedsSystem()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// Populate Needs
-
-	FNeed NewNeed;
-	NewNeed.Name = TEXT("Energy");
-	NewNeed.Type = ENERGY;
-	Needs.Add(NewNeed);
+	for (ENeedType NeedType : TEnumRange<ENeedType>())
+	{
+		FNeed NewNeed;
+		NewNeed.Name = "NEED NAME"; //TODO ADD GET NAME FUNCTION VIA
+		NewNeed.Type = NeedType;
+		NeedsMap.Add(NeedType, NewNeed);
+	}
 }
 
 // Called when the game starts
@@ -29,21 +31,35 @@ void UNeedsSystem::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	//Tick Needs
-	for (int i = 0; i < Needs.Num(); i++)
+	for (auto& Need : NeedsMap)
 	{
-		Tick_Goal(DeltaTime, Needs[i]);
+		Tick_Need(DeltaTime, Need.Value);
 	}
+ 
 }
 
-void UNeedsSystem::Tick_Goal(float DeltaTime, FNeed& Goal)
+void UNeedsSystem::Tick_Need(float DeltaTime, FNeed& Need)
 {
 	//Increase goal value by delta time and clamp at max value.
-	Goal.Value = FMath::Clamp((Goal.Value += DeltaTime), 0.0f, 100.0f);
+	Need.Value = FMath::Clamp((Need.Value += DeltaTime), 0.0f, 100.0f);
 
 	//Check if should be action?
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Goal: %s, Value: %f"), *Goal.Name, Goal.Value));
 
 	
+}
+
+void UNeedsSystem::FufillNeed(const ENeedType& NeedType, float Amount)
+{
+	//check if need in needs map
+	bool bHasNeed = NeedsMap.Contains(NeedType);
+
+	//if found, reduce need value by amount;
+	if (bHasNeed)
+	{
+		auto& Need = NeedsMap[NeedType];
+		Need.Value -= Amount;
+	}
 }
 
 float FNeed::GetDiscontentment(float NewValue) const

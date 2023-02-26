@@ -35,13 +35,18 @@ void AStation::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (Workers.Num() > 0)
+	if (RequirementsMet())
 	{
 		//Check Progress
-
-		//Increase by DeltaTime
-
-		//If greater than Max Value, Cause Output Result - Make this Virtual
+		if (fProgress >= 100)
+		{
+			OnProgressCompletion();
+		}
+		else
+		{
+			//Increase progress to completion by progress rate X num workers.
+			fProgress += (fProgressRate * Workers.Num());
+		}
 	}
 
 }
@@ -55,7 +60,6 @@ void AStation::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class A
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Overlap Begin"));
 			AddWorker(OtherActor);
 		}
-
 	}
 }
 
@@ -85,5 +89,25 @@ void AStation::RemoveWorker(AActor* Worker)
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Worker %s unloaded from Station: %s"), *Worker->GetName(), *this->GetName()));
 
+}
+
+void AStation::OnProgressCompletion()
+{
+	//Reset Station (clear active progress)
+	Reset();
+
+	//Derived will have output resources etc.
+}
+
+void AStation::Reset()
+{
+	//Reset progress value.
+	fProgress = 0.0f;
+}
+
+bool AStation::RequirementsMet()
+{
+	//Check min workers 
+	return Workers.Num() > 0;
 }
 

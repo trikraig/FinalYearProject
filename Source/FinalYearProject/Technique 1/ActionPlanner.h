@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "FinalYearProject/Interface/NeedsSystem.h"
 #include "ActionPlanner.generated.h"
 
 struct FNeed;
@@ -13,12 +14,14 @@ struct FAction
 {
 	GENERATED_BODY()
 
-		UPROPERTY()
-		FString Name = "Action";
 	UPROPERTY()
-		int32 Type;
+	FString Name = "Action";
+
 	UPROPERTY()
-		float Value = 0.0f;
+	ENeedType Type;
+
+	UPROPERTY()
+	float Value = 0.0f;
 
 	float GetNeedChange(const FNeed& Need) const;
 };

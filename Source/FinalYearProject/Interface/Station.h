@@ -49,4 +49,13 @@ public:
 	UFUNCTION()
 	void RemoveWorker(AActor* Worker);
 
+	UFUNCTION()
+	virtual void OnProgressCompletion();
+
+	UFUNCTION()
+	virtual void Reset(); 
+
+	UFUNCTION()
+	virtual bool RequirementsMet();
+
 };

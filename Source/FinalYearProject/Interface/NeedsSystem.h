@@ -6,24 +6,27 @@
 #include "Components/ActorComponent.h"
 #include "NeedsSystem.generated.h"
 
-UENUM()
-enum NeedTypes
+UENUM(BlueprintType)
+enum class ENeedType : uint8
 {
-	NONE = 0	UMETA(Hidden),
-	ENERGY,
-	NUM			UMETA(Hidden)
+	Energy,
+	Count UMETA(Hidden)
 };
 
-USTRUCT()
+ENUM_RANGE_BY_COUNT(ENeedType, ENeedType::Count);
+
+USTRUCT(BlueprintType)
 struct FNeed
 {
 	GENERATED_BODY()
+
+public:
 
 	UPROPERTY()
 	FString Name = "Need";
 
 	UPROPERTY()
-	TEnumAsByte<NeedTypes> Type;
+	ENeedType Type;
 
 	UPROPERTY()
 	float Value = 0.0f;
@@ -42,8 +45,11 @@ public:
 
 public: /*Variables*/
 
+	//UPROPERTY(EditAnywhere)
+	//TArray<FNeed> Needs;
+
 	UPROPERTY(EditAnywhere)
-	TArray<FNeed> Needs;
+	TMap<ENeedType, FNeed> NeedsMap;
 
 	UPROPERTY(BlueprintReadOnly)
 	float TimeTick = 0.0f;
@@ -56,6 +62,8 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void Tick_Goal(float DeltaTime, FNeed& Goal); 
+	void Tick_Need(float DeltaTime, FNeed& Goal); 
+
+	void FufillNeed(const ENeedType& NeedType, float Amount);
 		
 };
