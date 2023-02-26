@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "FinalYearProject/Characters/Agent.h"
 #include "Station.generated.h"
 
 UCLASS()
@@ -17,12 +16,16 @@ public:
 	AStation();
 
 	UPROPERTY()
-	TArray<AAgent*> Workers;
+	TArray<AActor*> Workers;
 
 	UPROPERTY()
 	float fProgress = 0.0f;
 	UPROPERTY()
 	float fProgressRate = 1.0f;
+
+	// create trigger capsule
+	UPROPERTY(VisibleAnywhere, Category = "Trigger Capsule")
+	class UCapsuleComponent* TriggerCapsule;
 
 protected:
 	// Called when the game starts or when spawned
@@ -32,7 +35,18 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// declare overlap begin function
 	UFUNCTION()
-	bool AddWorker(AAgent* Worker);
+	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	// declare overlap end function
+	UFUNCTION()
+	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	UFUNCTION()
+	void AddWorker(AActor* Worker);
+
+	UFUNCTION()
+	void RemoveWorker(AActor* Worker);
 
 };

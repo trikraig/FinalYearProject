@@ -55,7 +55,7 @@ void AResourceManager::Tick(float DeltaSeconds)
 
 	for (Resource* ThisResource : Resources)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Resource: %s, Value: %i"), *ThisResource->Name, ThisResource->Quantity));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Resource: %s, Value: %i"), *ThisResource->Name, ThisResource->Quantity));
 	}
 
 

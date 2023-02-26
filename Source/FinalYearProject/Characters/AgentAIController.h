@@ -25,11 +25,17 @@ private:
 	UPROPERTY()
 	TArray<AActor*> Waypoints;
 
+	UPROPERTY()
+	AActor* TargetLocation;
+
 	UFUNCTION()
 	ATargetPoint* GetRandomWaypoint();
 
 	UFUNCTION()
 	void GoToRandomWaypoint();
+
+	UFUNCTION()
+	void GoToTarget();
 
 private:
 	FTimerHandle TimerHandle;
