@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ResourceManager.h"
 #include "Station.generated.h"
 
 UCLASS()
@@ -17,6 +18,9 @@ public:
 
 	UPROPERTY()
 	TArray<AActor*> Workers;
+
+	UPROPERTY()
+	AResourceManager* ResourceManager;
 
 	UPROPERTY()
 	float fProgress = 0.0f;

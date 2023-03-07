@@ -4,6 +4,7 @@
 #include "Station.h"
 #include "Components/CapsuleComponent.h"
 #include "FinalYearProject/Characters/Agent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AStation::AStation()
@@ -27,7 +28,10 @@ AStation::AStation()
 void AStation::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	AActor* FoundResourceManager = UGameplayStatics::GetActorOfClass(GetWorld(), AResourceManager::StaticClass());
+	if (FoundResourceManager)
+		ResourceManager = Cast<AResourceManager>(FoundResourceManager);
 }
 
 // Called every frame
@@ -38,7 +42,7 @@ void AStation::Tick(float DeltaTime)
 	if (RequirementsMet())
 	{
 		//Check Progress
-		if (fProgress >= 100)
+		if (fProgress > 100)
 		{
 			OnProgressCompletion();
 		}

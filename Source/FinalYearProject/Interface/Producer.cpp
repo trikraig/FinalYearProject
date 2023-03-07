@@ -3,3 +3,13 @@
 
 #include "Producer.h"
 
+void AProducer::OnProgressCompletion()
+{
+	Super::OnProgressCompletion();
+
+	//Add copy of generated resource to Resource Manager.
+	if (ResourceManager)
+	{
+		ResourceManager->AddResource(OutputResource, Quantity);
+	}
+}

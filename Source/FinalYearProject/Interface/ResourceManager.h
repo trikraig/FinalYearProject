@@ -23,6 +23,8 @@ public:
 
 	FString GetName(EResourceType Type);
 
+	void AddResource(EResourceType Type, int Quantity);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

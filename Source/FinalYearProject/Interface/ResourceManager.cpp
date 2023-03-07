@@ -32,6 +32,17 @@ FString AResourceManager::GetName(EResourceType Type)
 	return FString();
 }
 
+void AResourceManager::AddResource(EResourceType Type, int Quantity)
+{
+	//TODO - Change the TArray to something easier to insert into.
+
+	for (Resource* ThisResource : Resources)
+	{
+		if (ThisResource->Type == Type)
+			ThisResource->Quantity += Quantity;
+	}
+}
+
 // Called when the game starts or when spawned
 void AResourceManager::BeginPlay()
 {
@@ -55,7 +66,7 @@ void AResourceManager::Tick(float DeltaSeconds)
 
 	for (Resource* ThisResource : Resources)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Resource: %s, Value: %i"), *ThisResource->Name, ThisResource->Quantity));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Resource: %s, Value: %i"), *ThisResource->Name, ThisResource->Quantity));
 	}
 
 
