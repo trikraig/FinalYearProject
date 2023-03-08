@@ -37,10 +37,3 @@ void AProvider::OnProgressCompletion()
 	}
 }
 
-void AProvider::Reset()
-{
-	Super::Reset();
-
-	//Consume input resources. Cap at 0.
-	InputResourceQuantity = FMath::Max(InputResourceQuantity - RequiredInputQuantity, 0);
-}

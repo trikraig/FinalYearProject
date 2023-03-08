@@ -25,6 +25,9 @@ public:
 
 	void AddResource(EResourceType Type, int Quantity);
 
+	UFUNCTION()
+	bool ResourceAvailable(EResourceType Type, int Quantity) const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

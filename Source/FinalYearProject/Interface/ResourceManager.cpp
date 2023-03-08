@@ -43,6 +43,18 @@ void AResourceManager::AddResource(EResourceType Type, int Quantity)
 	}
 }
 
+bool AResourceManager::ResourceAvailable(EResourceType Type, int Quantity) const
+{
+	//TODO - Change the TArray to something easier to check
+	for (Resource* ThisResource : Resources)
+	{
+		if (ThisResource->Type == Type)
+			return ThisResource->Quantity >= Quantity;
+	}
+
+	return false;
+}
+
 // Called when the game starts or when spawned
 void AResourceManager::BeginPlay()
 {
@@ -53,7 +65,7 @@ void AResourceManager::BeginPlay()
 		//Add to Resources array.
 		Resource* NewResource = new Resource;
 		NewResource->Name = GetName(ResourceType);
-		NewResource->Quantity = 0;
+		NewResource->Quantity = 10;
 		NewResource->Type = ResourceType; // static_cast<uint8> (ResourceType);
 		Resources.Add(NewResource);
 	}

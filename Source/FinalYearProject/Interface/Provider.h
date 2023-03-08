@@ -34,6 +34,5 @@ public:
 
 	virtual bool RequirementsMet() override;
 	virtual void OnProgressCompletion() override;
-	virtual void Reset() override;
 	
 };
