@@ -5,26 +5,11 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "FinalYearProject/Interface/NeedsSystem.h"
+#include "FinalYearProject/Interface/Station.h"
+#include "FinalYearProject/Technique 1/Action.h"
+#include "FinalYearProject/Characters/Agent.h"
 #include "ActionPlanner.generated.h"
 
-struct FNeed;
-
-USTRUCT()
-struct FAction
-{
-	GENERATED_BODY()
-
-	UPROPERTY()
-	FString Name = "Action";
-
-	UPROPERTY()
-	ENeedType Type;
-
-	UPROPERTY()
-	float Value = 0.0f;
-
-	float GetNeedChange(const FNeed& Need) const;
-};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class FINALYEARPROJECT_API UActionPlanner : public UActorComponent
@@ -35,8 +20,7 @@ public:
 	// Sets default values for this component's properties
 	UActionPlanner();
 
-	UPROPERTY(EditAnywhere)
-	TArray<FAction> Actions;
+	TArray<Action> Actions;
 
 protected:
 	// Called when the game starts
@@ -46,7 +30,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	FAction* ChooseAction(const TArray<FNeed>& Needs);
-	float Discontentment(const FAction& Action, const TArray<FNeed>& Needs) const;
+	// Create actions that would meet target need.
+	void CreateActions(const FNeed& TargetNeed);
+	// Create actions that would fulfill conditions of Target Station.
+	void CreateActions(AStation* TargetStation);
+
+	bool FindNewAction(AAgent* Agent);
 		
 };

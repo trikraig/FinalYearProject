@@ -39,7 +39,7 @@ void AStation::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (RequirementsMet())
+	if (RequirementsMet() && Workers.Num() > 0)
 	{
 		//Check Progress
 		if (fProgress > 100)
@@ -111,7 +111,7 @@ void AStation::Reset()
 
 bool AStation::RequirementsMet()
 {
-	//Check min workers 
-	return Workers.Num() > 0;
+	//Any base requirements for stations.
+	return true;
 }
 

@@ -31,7 +31,10 @@ public:
 	UPROPERTY()
 	float Value = 0.0f;
 
-	float GetDiscontentment(float NewValue) const;
+	UPROPERTY()
+	float Discontentment = 80.0f;
+
+	inline bool IsDiscontent() const { return Value > Discontentment; };
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )

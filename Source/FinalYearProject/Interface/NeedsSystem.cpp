@@ -62,7 +62,3 @@ void UNeedsSystem::FufillNeed(const ENeedType& NeedType, float Amount)
 	}
 }
 
-float FNeed::GetDiscontentment(float NewValue) const
-{
-	return NewValue * NewValue; //????
-}

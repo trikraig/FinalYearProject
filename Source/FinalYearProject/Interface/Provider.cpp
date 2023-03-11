@@ -11,7 +11,10 @@ bool AProvider::RequirementsMet()
 	//Check if valid input resource.
 	if (bResult)
 	{
-		bResult = InputResourceQuantity > RequiredInputQuantity;
+		if (ResourceManager)
+		{
+			bResult = ResourceManager->ResourceAvailable(InputResourceType, RequiredInputQuantity);
+		}
 	}
 
 	return bResult;
@@ -21,8 +24,13 @@ void AProvider::OnProgressCompletion()
 {
 	Super::OnProgressCompletion();
 
-	//Add resulting need increases to the workers
+	//Consume Resource
+	if (ResourceManager)
+	{
+		ResourceManager->AddResource(InputResourceType, -RequiredInputQuantity);
+	}
 
+	//Add resulting need increases to the workers
 	for (AActor* Actor : Workers)
 	{
 		if (AAgent* Agent = Cast<AAgent>(Actor))
@@ -31,7 +39,7 @@ void AProvider::OnProgressCompletion()
 
 			if (Agent->NeedsSystemComponent)
 			{
-				Agent->NeedsSystemComponent->FufillNeed(OutputNeed, NeedFufillmentAmount);
+				Agent->NeedsSystemComponent->FufillNeed(OutputNeedType, NeedFufillmentAmount);
 			}
 		}
 	}

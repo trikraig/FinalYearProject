@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Resource.generated.h"
 
+/*Enum class to avoid need for casting members to TEnumAsByte and back again.*/
 UENUM(BlueprintType)
 enum class EResourceType : uint8
 {

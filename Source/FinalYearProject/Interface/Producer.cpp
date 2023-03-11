@@ -10,6 +10,6 @@ void AProducer::OnProgressCompletion()
 	//Add copy of generated resource to Resource Manager.
 	if (ResourceManager)
 	{
-		ResourceManager->AddResource(OutputResource, Quantity);
+		ResourceManager->AddResource(OutputResourceType, Quantity);
 	}
 }

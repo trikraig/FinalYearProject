@@ -3,6 +3,8 @@
 
 #include "ActionPlanner.h"
 #include "../Interface/NeedsSystem.h"
+#include "../Interface/Provider.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UActionPlanner::UActionPlanner()
@@ -20,10 +22,7 @@ void UActionPlanner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
 }
-
 
 // Called every frame
 void UActionPlanner::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -33,52 +32,63 @@ void UActionPlanner::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	// ...
 }
 
-FAction* UActionPlanner::ChooseAction(const TArray<FNeed>& Needs)
+void UActionPlanner::CreateActions(const FNeed& TargetNeed)
 {
-	//Find action with lowest discontentment
+	//Find stations in that world that meet the TargetNeed.
+	TArray<AActor*> FoundStations;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AProvider::StaticClass(), FoundStations);
 
-	FAction* pBestAction = nullptr;
-	float	 fBestValue = FLT_MAX;
-
-	//for (auto& Action : Actions)
-	//{
-	//	float ActionValue = Discontentment(Action, Needs);
-	//	if (ActionValue < fBestValue)
-	//	{
-	//		fBestValue = ActionValue;
-	//		pBestAction = Action;
-	//	}
-	//}
-
-	return pBestAction;
+	for (AActor* StationActor : FoundStations)
+	{
+		if (AProvider* Provider = Cast<AProvider>(StationActor))
+		{
+			//Check if Producer output Need matches target Need
+			if (Provider->OutputNeedType == TargetNeed.Type)
+			{
+				if (Provider->RequirementsMet())
+				{
+					//Create Action with this Provider as the target.
+					Action NewAction;
+					NewAction.DestinationActor = Provider;
+					Actions.Add(NewAction);
+				}
+				else
+				{
+					//Create Actions to fulfill this Providers Requirements.
+					CreateActions(Provider);
+				}
+			}
+		}
+	}
 }
 
-float UActionPlanner::Discontentment(const FAction& Action, const TArray<FNeed>& Needs) const
+void UActionPlanner::CreateActions(AStation* TargetStation)
 {
-	//Keep running total
-	float fDiscontentment = 0.0f;
-
-	//Loop through each goal
-	for (auto& Need : Needs)
-	{
-		//Calculate new value after the action
-		float fNewValue = Need.Value + Action.GetNeedChange(Need);
-
-		//Get the discontentment of this value.
-		fDiscontentment += Need.GetDiscontentment(fNewValue);
-	}
-
-	return fDiscontentment;
+	//TODO
 }
 
-float FAction::GetNeedChange(const FNeed& Need) const
+bool UActionPlanner::FindNewAction(AAgent* Agent)
 {
-	//Check if fulfills need
-	if (Need.Type == Type)
+	Actions.Empty();
+
+	// Create actions from Needs.
+	if (UNeedsSystem* Needs = Agent->NeedsSystemComponent)
 	{
-		//Return Need Change
-		return Need.Value - Value;
+		for (auto& Need : Needs->NeedsMap)
+		{
+			if (Need.Value.IsDiscontent())
+			{
+				CreateActions(Need.Value);
+			}
+		}
 	}
 
-	return 0.0f;
+	//Select action. - TODO
+
+	if (Actions.Num() > 0)
+	{
+		Agent->CurrentAction = &Actions[0];
+	}
+
+	return false;
 }

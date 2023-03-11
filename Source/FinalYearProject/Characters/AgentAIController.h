@@ -21,18 +21,9 @@ public:
 
 	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
 
-private:
-	UPROPERTY()
-	TArray<AActor*> Waypoints;
 
 	UPROPERTY()
 	AActor* TargetLocation;
-
-	UFUNCTION()
-	ATargetPoint* GetRandomWaypoint();
-
-	UFUNCTION()
-	void GoToRandomWaypoint();
 
 	UFUNCTION()
 	void GoToTarget();

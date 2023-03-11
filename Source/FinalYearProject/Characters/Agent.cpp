@@ -2,6 +2,7 @@
 
 #include "Agent.h"
 #include "FinalYearProject/Technique 1/ActionPlanner.h"
+#include "AgentAIController.h"
 
 // Sets default values
 AAgent::AAgent()
@@ -32,11 +33,25 @@ void AAgent::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	//Do we have an action?
+	if (CurrentAction)
+	{
+		if (AAgentAIController* AI = Cast<AAgentAIController>(GetController()))
+		{
+			if (AI->TargetLocation == NULL)
+			{
+				AI->TargetLocation = CurrentAction->DestinationActor;
+			}
+
+			if (AI->TargetLocation)
+				AI->GoToTarget();
+		}
+	}
+	else
+	{
+		ActionPlannerComponent->FindNewAction(this);
+	}
 
 	//Act upon that action.
-
-
-
 }
 
 // Called to bind functionality to input

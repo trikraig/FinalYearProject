@@ -8,6 +8,7 @@
 #include "GameFramework/Character.h"
 #include "FinalYearProject/Core/Defines.h"
 #include "FinalYearProject/Interface/NeedsSystem.h"
+#include "../Technique 1/Action.h"
 #include "Agent.generated.h"
 
 UCLASS()
@@ -34,9 +35,6 @@ public: /*Variables*/
 #endif
 
 	UPROPERTY()
-	class AActor* Target;
-
-	UPROPERTY()
 	float Speed = 10.0f;
 
 public:	/*Functions*/
@@ -46,8 +44,7 @@ public:	/*Functions*/
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-
-protected:
-
 	FVector Direction;
+
+	Action* CurrentAction;
 };

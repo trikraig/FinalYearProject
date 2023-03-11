@@ -19,13 +19,13 @@ class FINALYEARPROJECT_API AProvider : public AStation
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
-	uint8 InputResourceQuantity;
+	EResourceType InputResourceType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
 	uint8 RequiredInputQuantity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
-	ENeedType OutputNeed = ENeedType::Energy;
+	ENeedType OutputNeedType = ENeedType::Energy;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
 	float NeedFufillmentAmount = 100.0f;

@@ -18,7 +18,7 @@ class FINALYEARPROJECT_API AProducer : public AStation
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
-	EResourceType OutputResource;
+	EResourceType OutputResourceType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
 	int Quantity;
