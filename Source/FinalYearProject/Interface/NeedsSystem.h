@@ -29,10 +29,10 @@ public:
 	ENeedType Type;
 
 	UPROPERTY()
-	float Value = 0.0f;
+	float Value = 60.0f;
 
 	UPROPERTY()
-	float Discontentment = 80.0f;
+	float Discontentment = 50.0f;
 
 	inline bool IsDiscontent() const { return Value > Discontentment; };
 };

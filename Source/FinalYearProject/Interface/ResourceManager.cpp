@@ -60,13 +60,17 @@ void AResourceManager::BeginPlay()
 {
 	Super::BeginPlay();
 
+
+
 	for (EResourceType ResourceType : TEnumRange<EResourceType>())
 	{
 		//Add to Resources array.
 		Resource* NewResource = new Resource;
 		NewResource->Name = GetName(ResourceType);
-		NewResource->Quantity = 10;
 		NewResource->Type = ResourceType; // static_cast<uint8> (ResourceType);
+
+		NewResource->Quantity = ResourceType == EResourceType::RawFood ? 10 : 0;
+
 		Resources.Add(NewResource);
 	}
 	

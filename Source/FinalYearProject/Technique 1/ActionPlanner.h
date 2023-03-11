@@ -30,10 +30,17 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	//With my implementation, i wanted to avoid having to define each individual action manually, and instead generate them all programatically.
 	// Create actions that would meet target need.
-	void CreateActions(const FNeed& TargetNeed);
-	// Create actions that would fulfill conditions of Target Station.
-	void CreateActions(AStation* TargetStation);
+	void PlanActions(const FNeed& TargetNeed);
+	//Could introduce a input required station type that parent provider and processor but make do with these two for now.
+	void PlanActions(TArray<AActor*> FoundStations, class AProvider* RequiredProvider);
+	void PlanActions(TArray<AActor*> FoundStations, class AProcessor* RequiredProcessor);
+
+	// Plan actions that would fulfill conditions of Target Station.
+
+	void CreateAction(AActor* TargetStation);
+
 
 	bool FindNewAction(AAgent* Agent);
 		

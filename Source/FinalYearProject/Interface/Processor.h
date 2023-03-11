@@ -25,7 +25,7 @@ public:
 	int InputQuantity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
-	EResourceType OutputResource;
+	EResourceType OutputResourceType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FYP")
 	int OutputQuantity;

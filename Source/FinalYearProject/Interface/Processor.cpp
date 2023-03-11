@@ -24,7 +24,7 @@ void AProcessor::OnProgressCompletion()
 		//Remove input resources.
 		ResourceManager->AddResource(InputResource, -InputQuantity);
 		//Add output resources.
-		ResourceManager->AddResource(OutputResource, OutputQuantity);
+		ResourceManager->AddResource(OutputResourceType, OutputQuantity);
 	}
 }
 
