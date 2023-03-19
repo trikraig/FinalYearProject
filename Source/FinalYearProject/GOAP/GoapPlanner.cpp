@@ -60,15 +60,77 @@ void UGoapPlanner::Plan()
 	// we now have all actions that can run, stored in usableActions
 
 	// build up the tree and record the leaf nodes that provide a solution to the goal.
-	TArray<Node> Leaves;
+	TArray<TSharedPtr <Node>> Leaves;
 
 	// build graph
-	Node* RootNode = new Node (nullptr, 0, WorldState, nullptr);
+	TSharedPtr <Node> RootNode = MakeShareable(new Node(nullptr, 0, WorldState, nullptr));
 	bool bSuccess = BuildGraph(RootNode, Leaves, UsableActions, GoalState);
-
 }
 
-bool UGoapPlanner::BuildGraph(Node* Parent, TArray<Node>& Leaves, TSet<UGoapAction*> UsableActions, Dictionary Goal)
+bool UGoapPlanner::BuildGraph(TSharedPtr <Node> Parent, TArray<Node>& Leaves, TSet<UGoapAction*> UsableActions, Dictionary Goal)
 {
+	bool bFound = false;
+
+	//Iterate through each action available at node and see if we can use it here
+
+	for (UGoapAction* Action : UsableActions)
+	{
+		// if the parent state has the conditions for this action's preconditions, we can use it here
+		if (InState(Action->GetConditions(), Parent->State))
+		{
+			// apply the action's effects to the parent state
+			Dictionary CurrentState = PopulateState(Parent->State, Action->GetEffects());
+
+			TSharedPtr<Node> NextNode = MakeShared<Node>(new Node(Parent, Parent->RunningCost + Action->Cost, CurrentState, Action);
+			if (InState(Goal, CurrentState))
+			{
+				// Solution Found
+				Leaves.Add(*NextNode);
+			}
+			else
+			{
+				//Not found solution yet, so test all remaining actions and branch out the tree.
+				TSet<TSharedPt> SubSet = ActionSubset;
+			}
+
+		}
+	}
 	return true;
+}
+
+bool UGoapPlanner::InState(const Dictionary& Test, const Dictionary& State)
+{
+
+	for (const TPair<FString, bool>& TestPair : Test)
+	{
+		bool bMatch = false;
+
+		for (const TPair<FString, bool>& StatePair : State)
+		{
+			if (StatePair.Key == TestPair.Key &&
+				StatePair.Value == TestPair.Value)
+			{
+				bMatch = true;
+			}
+		}
+
+		//If any state condition not met, set return value to false.
+		if (!bMatch) 
+			return false;
+
+	}
+
+	return true;
+}
+
+Dictionary UGoapPlanner::PopulateState(const Dictionary& CurrentState, const Dictionary& StateChange)
+{
+	Dictionary ReturnState = CurrentState;
+	ReturnState.Append(StateChange);
+	return ReturnState;
+}
+
+TSet<TSharedPtr<UGoapAction>> UGoapPlanner::ActionSubset()
+{
+	return TSet<MakeShared<UGoapAction>>();
 }

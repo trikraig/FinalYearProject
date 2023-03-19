@@ -53,6 +53,31 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void Plan();
-	
-	bool BuildGraph(Node* Parent, TArray<Node>& Leaves, TSet<UGoapAction*> UsableActions, Dictionary Goal);
+
+private:
+
+	/**
+	 * Returns true if at least one solution was found.
+	 * The possible paths are stored in the leaves list. Each leaf has a
+	 * 'runningCost' value where the lowest cost will be the best action
+	 * sequence.
+	 */
+	bool BuildGraph(TSharedPtr <Node> Parent, TArray<Node>& Leaves, TSet<UGoapAction*> UsableActions, Dictionary Goal);
+
+	/**
+	 * Check that all items in 'test' are in 'state'. If just one does not match or is not there
+	* then this returns false.
+	*/
+	bool InState(const Dictionary& Test, const Dictionary& State);
+
+	/**
+	 * Apply the stateChange to the currentState
+	 */
+	Dictionary PopulateState(const Dictionary& CurrentState, const Dictionary& StateChange);
+
+	/**
+	* Create a subset of the actions excluding the removeMe one. Creates a new set.
+	*/
+	TSet<TSharedPtr<UGoapAction>> ActionSubset();
+
 };

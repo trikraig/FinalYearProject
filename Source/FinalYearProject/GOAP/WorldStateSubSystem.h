@@ -8,7 +8,7 @@
 #include "WorldStateSubSystem.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FINALYEARPROJECT_API UWorldStateSubSystem : public UGameInstanceSubsystem
@@ -36,9 +36,7 @@ public:
 
 protected:
 
-
 	Dictionary WorldState;
 
 	Dictionary GoalState;
-
 };
