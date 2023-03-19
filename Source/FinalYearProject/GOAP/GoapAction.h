@@ -6,8 +6,10 @@
 #include "UObject/NoExportTypes.h"
 #include "GoapAction.generated.h"
 
+typedef TMap<FString, bool> Dictionary;
+
 /**
- * 
+ *
  */
 UCLASS()
 class FINALYEARPROJECT_API UGoapAction : public UObject
@@ -19,8 +21,8 @@ public:
 
 protected:
 
-	TMap<FString, bool> Preconditions;
-	TMap<FString, bool> Effects;
+	Dictionary Preconditions;
+	Dictionary Effects;
 
 	bool bInRange = false;
 
@@ -76,10 +78,6 @@ public:
 
 	void RemoveEffect(FString Key);
 
-	TMap<FString, bool> GetConditions();
-	TMap<FString, bool> GetEffects();
-
-
-
-	
+	Dictionary GetConditions();
+	Dictionary GetEffects();
 };

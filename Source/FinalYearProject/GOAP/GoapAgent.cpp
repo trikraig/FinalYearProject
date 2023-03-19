@@ -1,22 +1,22 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "GoapAgent.h"
 #include "WorldStateSubSystem.h"
 
 // Sets default values
 AGoapAgent::AGoapAgent()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	//Setup Planner Component
+	Planner = CreateDefaultSubobject<UGoapPlanner>(TEXT("GOAP Planner Component"));
 }
 
 // Called when the game starts or when spawned
 void AGoapAgent::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -31,7 +31,6 @@ void AGoapAgent::Tick(float DeltaTime)
 void AGoapAgent::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
 void AGoapAgent::FSMUpdate()
@@ -59,7 +58,7 @@ void AGoapAgent::FSMUpdate()
 		}
 		break;
 	}
-		
+
 	case AGoapAgent::PERFORMACTION:
 	{
 		if (Event == GameEvents::ON_ENTER) {
@@ -93,19 +92,8 @@ void AGoapAgent::Idle_Enter()
 	// Change to GameEvents to Update when called
 	Event = GameEvents::ON_UPDATE;
 
-	//Get World State and and the Goal we want to plan for.
-	UGameInstance* GameInstance = GetWorld()->GetGameInstance();
-	check(GameInstance);
-
-	UWorldStateSubSystem* WorldStateSubSystem = GameInstance->GetSubsystem<UWorldStateSubSystem>();
-	check(WorldStateSubSystem);
-
-	auto WorldState = WorldStateSubSystem->GetWorldState();
-	auto GoalState = WorldStateSubSystem->GetGoalState();
-
 	//TODO - Planner
-
-
+	Planner->Plan();
 }
 
 void AGoapAgent::Idle_Update()
@@ -115,7 +103,7 @@ void AGoapAgent::Idle_Update()
 
 void AGoapAgent::Idle_Exit()
 {
-	// Implement any functionality for leaving the Idle state 
+	// Implement any functionality for leaving the Idle state
 }
 
 void AGoapAgent::MoveTo_Enter()
@@ -131,7 +119,7 @@ void AGoapAgent::MoveTo_Update()
 
 void AGoapAgent::MoveTo_Exit()
 {
-	// Implement any functionality for leaving the MoveTo state 
+	// Implement any functionality for leaving the MoveTo state
 }
 
 void AGoapAgent::PerformAction_Enter()
@@ -147,6 +135,5 @@ void AGoapAgent::PerformAction_Update()
 
 void AGoapAgent::PerformAction_Exit()
 {
-	// Implement any functionality for leaving the Exit state 
+	// Implement any functionality for leaving the Exit state
 }
-

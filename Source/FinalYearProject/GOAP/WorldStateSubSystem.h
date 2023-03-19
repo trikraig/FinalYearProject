@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/Subsystem.h"
+#include "GoapAction.h"
 #include "WorldStateSubSystem.generated.h"
 
 /**
@@ -24,8 +25,8 @@ public:
 	/** Implement this for deinitialization of instances of the system */
 	virtual void Deinitialize() {}
 
-	TMap<FString, bool> GetWorldState();
-	TMap<FString, bool> GetGoalState();
+	Dictionary GetWorldState();
+	Dictionary GetGoalState();
 
 	void AddState(const FString& NewState, bool bSetting);
 	void RemoveState(const FString& NewState);
@@ -36,8 +37,8 @@ public:
 protected:
 
 
-	TMap<FString, bool> WorldState;
+	Dictionary WorldState;
 
-	TMap<FString, bool> GoalState;
+	Dictionary GoalState;
 
 };

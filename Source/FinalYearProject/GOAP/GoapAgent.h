@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "GoapAction.h"
+#include "GoapPlanner.h"
 #include "GoapAgent.generated.h"
 
 UCLASS()
@@ -15,10 +15,7 @@ class FINALYEARPROJECT_API AGoapAgent : public ACharacter
 protected:
 
 	UPROPERTY()
-	TSet<UGoapAction*> AvailableActions;
-
-
-	TQueue<UGoapAction*> CurrentActions;
+		UGoapPlanner* Planner = nullptr;
 
 public:
 	// Sets default values for this character's properties
@@ -28,7 +25,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -57,5 +54,4 @@ private:
 	void PerformAction_Enter();
 	void PerformAction_Update();
 	void PerformAction_Exit();
-
 };
