@@ -32,4 +32,27 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+private:
+
+	enum GameStates { IDLE, MOVETO, PERFORMACTION };
+	GameStates State = GameStates::IDLE;
+
+	enum GameEvents { ON_ENTER, ON_UPDATE };
+	GameEvents Event = GameEvents::ON_ENTER;
+
+	void FSMUpdate();
+	void SetFSMState(GameStates newState);
+
+	void Idle_Enter();
+	void Idle_Update();
+	void Idle_Exit();
+
+	void MoveTo_Enter();
+	void MoveTo_Update();
+	void MoveTo_Exit();
+
+	void PerformAction_Enter();
+	void PerformAction_Update();
+	void PerformAction_Exit();
+
 };

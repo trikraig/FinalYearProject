@@ -23,35 +23,7 @@ void AGoapAgent::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//Get World State
-	//Get World Conditions
-	TMap<FString, bool> WorldState; // = WorldState->GetWorldState - //Get list of conditions in world. Generate from collected resources etc.
-	TMap<FString, bool> Goal; //WorldState->CreateGoalState -- Get Desired Conditions
-
-	//Plan
-
-	//TQueue<UGoapAction> Plan; // Planner - Get Generated Queue of Actions to completed
-
-	//if (!Plan.IsEmpty())
-	{
-		//We have a plan! Yay!
-
-		//Move contents of Plan into CurrentActions.
-
-		//Inform WorldState that we have a plan 
-	}
-
-	//Act upon that action.
-
-	//if has action
-	//	//move to action
-
-		//perform action
-
-	// else idle
-
-
-
+	FSMUpdate();
 }
 
 // Called to bind functionality to input
@@ -59,5 +31,107 @@ void AGoapAgent::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AGoapAgent::FSMUpdate()
+{
+	switch (State)
+	{
+	case AGoapAgent::IDLE:
+	{
+		if (Event == GameEvents::ON_ENTER) {
+			Idle_Enter();
+		}
+		if (Event == GameEvents::ON_UPDATE) {
+			Idle_Update();
+		}
+		break;
+	}
+
+	case AGoapAgent::MOVETO:
+	{
+		if (Event == GameEvents::ON_ENTER) {
+			MoveTo_Enter();
+		}
+		if (Event == GameEvents::ON_UPDATE) {
+			MoveTo_Update();
+		}
+		break;
+	}
+		
+	case AGoapAgent::PERFORMACTION:
+	{
+		if (Event == GameEvents::ON_ENTER) {
+			PerformAction_Enter();
+		}
+		if (Event == GameEvents::ON_UPDATE) {
+			PerformAction_Update();
+		}
+		break;
+	}
+	}
+}
+
+void AGoapAgent::SetFSMState(GameStates newState)
+{
+	switch (State)
+	{
+	case AGoapAgent::IDLE: Idle_Exit(); break;
+	case AGoapAgent::MOVETO: MoveTo_Exit(); break;
+	case AGoapAgent::PERFORMACTION: PerformAction_Exit(); break;
+	default: UE_LOG(LogTemp, Error, TEXT("Unexpected state has not been implemented!"), newState); break;
+	}
+
+	// Set new GameStates state and begin OnEnter of that state
+	State = newState;
+	Event = GameEvents::ON_ENTER;
+}
+
+void AGoapAgent::Idle_Enter()
+{
+	// Change to GameEvents to Update when called
+	Event = GameEvents::ON_UPDATE;
+}
+
+void AGoapAgent::Idle_Update()
+{
+	//Do nothing
+}
+
+void AGoapAgent::Idle_Exit()
+{
+	// Implement any functionality for leaving the Idle state 
+}
+
+void AGoapAgent::MoveTo_Enter()
+{
+	// Change to GameEvents to Update when called
+	Event = GameEvents::ON_UPDATE;
+}
+
+void AGoapAgent::MoveTo_Update()
+{
+	//Have AI handle Movement to Target Actor.
+}
+
+void AGoapAgent::MoveTo_Exit()
+{
+	// Implement any functionality for leaving the MoveTo state 
+}
+
+void AGoapAgent::PerformAction_Enter()
+{
+	// Change to GameEvents to Update when called
+	Event = GameEvents::ON_UPDATE;
+}
+
+void AGoapAgent::PerformAction_Update()
+{
+	//Will be performing the Goap Action as per Action::Perform .
+}
+
+void AGoapAgent::PerformAction_Exit()
+{
+	// Implement any functionality for leaving the Exit state 
 }
 

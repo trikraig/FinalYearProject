@@ -7,7 +7,7 @@
 #include "ChopTreeAction.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FINALYEARPROJECT_API UChopTreeAction : public UGoapAction
@@ -40,5 +40,4 @@ public:
 	virtual bool CheckProceduralPrecondition(AActor* Agent) override;
 
 	virtual bool Perform(AActor* Agent) override;
-	
 };

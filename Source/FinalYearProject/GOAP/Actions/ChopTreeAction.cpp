@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "ChopTreeAction.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -59,7 +58,6 @@ bool UChopTreeAction::CheckProceduralPrecondition(AActor* Agent)
 	//If didn't find a station return false.
 	if (Closest == nullptr) return false;
 
-
 	ChoppingBlock = Closest;
 	TargetObject = Closest;
 	return true;
@@ -91,4 +89,3 @@ bool UChopTreeAction::Perform(AActor* Agent)
 
 	return true;
 }
-
