@@ -2,7 +2,8 @@
 
 #include "Agent.h"
 #include "FinalYearProject/Technique 1/ActionPlanner.h"
-#include "AgentAIController.h"
+#include "../Characters/AgentAIController.h"
+
 
 // Sets default values
 AAgent::AAgent()

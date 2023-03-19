@@ -6,8 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "FinalYearProject/Interface/NeedsSystem.h"
 #include "FinalYearProject/Interface/Station.h"
-#include "FinalYearProject/Technique 1/Action.h"
-#include "FinalYearProject/Characters/Agent.h"
+#include "Action.h"
+#include "Agent.h"
 #include "ActionPlanner.generated.h"
 
 

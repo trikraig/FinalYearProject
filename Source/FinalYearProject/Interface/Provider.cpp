@@ -2,7 +2,8 @@
 
 
 #include "Provider.h"
-#include "FinalYearProject/Characters/Agent.h"
+#include "../Technique 1/Agent.h"
+
 
 bool AProvider::RequirementsMet()
 {

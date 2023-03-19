@@ -3,7 +3,7 @@
 
 #include "Station.h"
 #include "Components/CapsuleComponent.h"
-#include "FinalYearProject/Characters/Agent.h"
+#include "../Technique 1/Agent.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
