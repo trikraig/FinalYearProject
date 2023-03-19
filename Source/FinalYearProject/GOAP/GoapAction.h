@@ -13,7 +13,9 @@ UCLASS()
 class FINALYEARPROJECT_API UGoapAction : public UObject
 {
 	GENERATED_BODY()
+public:
 
+	UGoapAction() {};
 
 protected:
 

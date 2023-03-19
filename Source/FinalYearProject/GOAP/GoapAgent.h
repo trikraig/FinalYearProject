@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-//#include "GoapAction.h"
+#include "GoapAction.h"
 #include "GoapAgent.generated.h"
 
 UCLASS()
@@ -14,8 +14,11 @@ class FINALYEARPROJECT_API AGoapAgent : public ACharacter
 
 protected:
 
-	//TSet<UGoapAction> AvailableActions;
-	//TQueue<UGoapAction> CurrentActions;
+	UPROPERTY()
+	TSet<UGoapAction*> AvailableActions;
+
+
+	TQueue<UGoapAction*> CurrentActions;
 
 public:
 	// Sets default values for this character's properties

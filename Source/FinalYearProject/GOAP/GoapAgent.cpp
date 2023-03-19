@@ -2,6 +2,7 @@
 
 
 #include "GoapAgent.h"
+#include "WorldStateSubSystem.h"
 
 // Sets default values
 AGoapAgent::AGoapAgent()
@@ -91,6 +92,20 @@ void AGoapAgent::Idle_Enter()
 {
 	// Change to GameEvents to Update when called
 	Event = GameEvents::ON_UPDATE;
+
+	//Get World State and and the Goal we want to plan for.
+	UGameInstance* GameInstance = GetWorld()->GetGameInstance();
+	check(GameInstance);
+
+	UWorldStateSubSystem* WorldStateSubSystem = GameInstance->GetSubsystem<UWorldStateSubSystem>();
+	check(WorldStateSubSystem);
+
+	auto WorldState = WorldStateSubSystem->GetWorldState();
+	auto GoalState = WorldStateSubSystem->GetGoalState();
+
+	//TODO - Planner
+
+
 }
 
 void AGoapAgent::Idle_Update()
