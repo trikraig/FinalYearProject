@@ -3,6 +3,7 @@
 #include "GoapPlanner.h"
 #include "WorldStateSubSystem.h"
 #include "GoapAgent.h"
+#include "Actions/ChopTreeAction.h"
 
 // Sets default values for this component's properties
 UGoapPlanner::UGoapPlanner()
@@ -30,7 +31,7 @@ void UGoapPlanner::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	// ...
 }
 
-void UGoapPlanner::Plan()
+bool UGoapPlanner::Plan()
 {
 	//Get World State and and the Goal we want to plan for.
 	UGameInstance* GameInstance = GetWorld()->GetGameInstance();
@@ -60,16 +61,50 @@ void UGoapPlanner::Plan()
 	// we now have all actions that can run, stored in usableActions
 
 	// build up the tree and record the leaf nodes that provide a solution to the goal.
-	TArray<TSharedPtr <Node>> Leaves;
+	TArray<Node*> Leaves;
 
 	// build graph
-	TSharedPtr <Node> RootNode = MakeShareable(new Node(nullptr, 0, WorldState, nullptr));
+	Node* RootNode = new Node(nullptr, 0, WorldState, nullptr);
 	bool bSuccess = BuildGraph(RootNode, Leaves, UsableActions, GoalState);
+
+	if (!bSuccess)
+	{
+		//No plan found.
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("NO PLAN FOUND")));
+		return false;
+	}
+
+	//Plan found! - Find the cheapest leaf
+
+	Node* Cheapest = nullptr;
+	for (Node* Leaf : Leaves)
+	{
+		if (!Cheapest || Leaf->RunningCost < Cheapest->RunningCost)
+		{
+			Cheapest = Leaf;
+		}
+	}
+
+	// Start at cheapest leaf, work way up tree adding required actions to queue.
+	CurrentActions.Empty();
+	Node* n = Cheapest;
+
+	while (n != nullptr)
+	{
+		if (n->Action != nullptr)
+		{
+			CurrentActions.Enqueue(n->Action);
+		}
+		n = n->Parent;
+	}
+
+	return !CurrentActions.IsEmpty();
+
 }
 
-bool UGoapPlanner::BuildGraph(TSharedPtr <Node> Parent, TArray<Node>& Leaves, TSet<UGoapAction*> UsableActions, Dictionary Goal)
+bool UGoapPlanner::BuildGraph(Node* Parent, TArray<Node*> Leaves, TSet<UGoapAction*> UsableActions, Dictionary Goal)
 {
-	bool bFound = false;
+	bool bSolutionFound = false;
 
 	//Iterate through each action available at node and see if we can use it here
 
@@ -81,21 +116,24 @@ bool UGoapPlanner::BuildGraph(TSharedPtr <Node> Parent, TArray<Node>& Leaves, TS
 			// apply the action's effects to the parent state
 			Dictionary CurrentState = PopulateState(Parent->State, Action->GetEffects());
 
-			TSharedPtr<Node> NextNode = MakeShared<Node>(new Node(Parent, Parent->RunningCost + Action->Cost, CurrentState, Action);
+			Node* NextNode = new Node(Parent, Parent->RunningCost + Action->Cost, CurrentState, Action);
 			if (InState(Goal, CurrentState))
 			{
 				// Solution Found
-				Leaves.Add(*NextNode);
+				Leaves.Add(NextNode);
 			}
 			else
 			{
 				//Not found solution yet, so test all remaining actions and branch out the tree.
-				TSet<TSharedPt> SubSet = ActionSubset;
+				TSet<UGoapAction*> Subset = ActionSubset(UsableActions, Action);
+				if (BuildGraph(NextNode, Leaves, Subset, Goal))
+					bSolutionFound = true;
 			}
 
 		}
 	}
-	return true;
+
+	return bSolutionFound;
 }
 
 bool UGoapPlanner::InState(const Dictionary& Test, const Dictionary& State)
@@ -130,7 +168,16 @@ Dictionary UGoapPlanner::PopulateState(const Dictionary& CurrentState, const Dic
 	return ReturnState;
 }
 
-TSet<TSharedPtr<UGoapAction>> UGoapPlanner::ActionSubset()
+TSet<UGoapAction*> UGoapPlanner::ActionSubset(TSet<UGoapAction*> Actions, UGoapAction* SkipAction)
 {
-	return TSet<MakeShared<UGoapAction>>();
+	TSet<UGoapAction*> ReturnSet;
+
+	for (UGoapAction* Action : Actions)
+	{
+		if (Action == SkipAction) continue;
+		ReturnSet.Add(Action);
+	}
+
+	return ReturnSet;
 }
+

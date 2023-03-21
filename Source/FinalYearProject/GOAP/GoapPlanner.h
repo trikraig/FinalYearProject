@@ -39,8 +39,8 @@ public:
 	// Sets default values for this component's properties
 	UGoapPlanner();
 
-	UPROPERTY()
-		TSet<UGoapAction*> AvailableActions;
+	UPROPERTY(EditAnywhere)
+	TSet<UGoapAction*> AvailableActions;
 
 	TQueue<UGoapAction*> CurrentActions;
 
@@ -52,7 +52,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void Plan();
+	bool Plan();
 
 private:
 
@@ -62,7 +62,7 @@ private:
 	 * 'runningCost' value where the lowest cost will be the best action
 	 * sequence.
 	 */
-	bool BuildGraph(TSharedPtr <Node> Parent, TArray<Node>& Leaves, TSet<UGoapAction*> UsableActions, Dictionary Goal);
+	bool BuildGraph(Node* Parent, TArray<Node*> Leaves, TSet<UGoapAction*> UsableActions, Dictionary Goal);
 
 	/**
 	 * Check that all items in 'test' are in 'state'. If just one does not match or is not there
@@ -78,6 +78,6 @@ private:
 	/**
 	* Create a subset of the actions excluding the removeMe one. Creates a new set.
 	*/
-	TSet<TSharedPtr<UGoapAction>> ActionSubset();
+	TSet<UGoapAction*> ActionSubset(TSet<UGoapAction*> Actions, UGoapAction* RemoveMe);
 
 };

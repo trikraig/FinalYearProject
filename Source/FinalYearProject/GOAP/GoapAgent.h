@@ -15,7 +15,7 @@ class FINALYEARPROJECT_API AGoapAgent : public ACharacter
 protected:
 
 	UPROPERTY()
-		UGoapPlanner* Planner = nullptr;
+	UGoapPlanner* Planner = nullptr;
 
 public:
 	// Sets default values for this character's properties
