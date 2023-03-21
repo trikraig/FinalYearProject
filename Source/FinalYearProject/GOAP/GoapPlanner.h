@@ -54,6 +54,8 @@ public:
 
 	bool Plan();
 
+	bool PlanAvailable() const;
+
 private:
 
 	/**

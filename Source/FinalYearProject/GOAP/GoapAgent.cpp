@@ -2,6 +2,7 @@
 
 #include "GoapAgent.h"
 #include "WorldStateSubSystem.h"
+#include "../Characters/AgentAIController.h"
 
 // Sets default values
 AGoapAgent::AGoapAgent()
@@ -27,7 +28,7 @@ void AGoapAgent::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FSMUpdate();
+	FSMUpdate(DeltaTime);
 }
 
 // Called to bind functionality to input
@@ -36,7 +37,7 @@ void AGoapAgent::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AGoapAgent::FSMUpdate()
+void AGoapAgent::FSMUpdate(float DeltaTime)
 {
 	switch (State)
 	{
@@ -94,14 +95,24 @@ void AGoapAgent::Idle_Enter()
 {
 	// Change to GameEvents to Update when called
 	Event = GameEvents::ON_UPDATE;
-
-	//TODO - Planner
-	Planner->Plan();
 }
 
 void AGoapAgent::Idle_Update()
 {
-	//Do nothing
+	//Planner Should be empty
+
+	bool bResult = Planner->Plan();
+
+	if (bResult)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Plan Generated")));
+		SetFSMState(PERFORMACTION);
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Plan Failed")));
+		SetFSMState(IDLE);
+	}
 }
 
 void AGoapAgent::Idle_Exit()
@@ -118,6 +129,33 @@ void AGoapAgent::MoveTo_Enter()
 void AGoapAgent::MoveTo_Update()
 {
 	//Have AI handle Movement to Target Actor.
+
+	UGoapAction* Action = nullptr;
+	Planner->CurrentActions.Peek(Action);
+	check(Action);
+
+	if (AAgentAIController* AI = Cast<AAgentAIController>(GetController()))
+	{
+		if (AI->TargetLocation == NULL)
+		{
+			AI->TargetLocation = Action->TargetObject;
+		}
+
+		if (AI->TargetLocation)
+		{
+			AI->GoToTarget();
+
+			if (Action->IsInRange(this))
+			{
+				SetFSMState(PERFORMACTION);
+			}
+		
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("No Target Actor")));
+		}
+	}
 }
 
 void AGoapAgent::MoveTo_Exit()
@@ -127,6 +165,7 @@ void AGoapAgent::MoveTo_Exit()
 
 void AGoapAgent::PerformAction_Enter()
 {
+	check(Planner);
 	// Change to GameEvents to Update when called
 	Event = GameEvents::ON_UPDATE;
 }
@@ -134,6 +173,52 @@ void AGoapAgent::PerformAction_Enter()
 void AGoapAgent::PerformAction_Update()
 {
 	//Will be performing the Goap Action as per Action::Perform .
+
+	//Peek at item at back of queue, 
+	UGoapAction* Action = nullptr;
+	Planner->CurrentActions.Peek(Action);
+
+	if (Action && Action->IsDone())
+	{
+		//the action is already done, can be removed from queue.
+		Planner->CurrentActions.Dequeue(Action);
+	}
+
+	if (Planner->PlanAvailable())
+	{
+		//Perform the next action.
+		Planner->CurrentActions.Peek(Action);
+		check(Action);
+		bool bInRange = Action->RequiresInRange() ? Action->IsInRange() : true;
+
+		if (bInRange)
+		{
+			//We are in range so can perform the action
+			bool bSucess = Action->Perform(this);
+			if (!bSucess)
+			{
+				//action failed so need to abort and replan
+				SetFSMState(IDLE);
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Action Failed - Plan Aborted")));
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Performing Action")));
+			}
+		}
+		else
+		{
+			//Need to get in range of action
+			SetFSMState(MOVETO);
+		}
+	}
+	else
+	{
+		//No actions left. Return to idle state to replan
+		SetFSMState(IDLE);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("No actions left - Returning to Idle")));
+
+	}
 }
 
 void AGoapAgent::PerformAction_Exit()

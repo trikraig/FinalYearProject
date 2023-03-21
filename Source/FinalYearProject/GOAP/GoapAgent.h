@@ -40,7 +40,7 @@ private:
 	enum GameEvents { ON_ENTER, ON_UPDATE };
 	GameEvents Event = GameEvents::ON_ENTER;
 
-	void FSMUpdate();
+	void FSMUpdate(float DeltaTime);
 	void SetFSMState(GameStates newState);
 
 	void Idle_Enter();

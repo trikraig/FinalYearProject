@@ -36,6 +36,11 @@ bool UGoapAction::RequiresInRange()
 	return false; //Default - don't need to be near object
 }
 
+bool UGoapAction::IsInRange(AActor* Agent) const
+{
+	return (TargetObject->GetActorLocation() - Agent->GetActorLocation()).Length() < Range;
+}
+
 void UGoapAction::AddPrecondition(FString Key, bool bValue)
 {
 	Preconditions.Add(Key, bValue);

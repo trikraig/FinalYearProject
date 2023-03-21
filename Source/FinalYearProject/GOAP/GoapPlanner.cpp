@@ -103,7 +103,7 @@ bool UGoapPlanner::Plan()
 	{
 		if (n->Action != nullptr)
 		{
-			CurrentActions.Enqueue(n->Action);
+			CurrentActions.Dequeue(n->Action);
 		}
 		n = n->Parent;
 	}
@@ -115,6 +115,11 @@ bool UGoapPlanner::Plan()
 
 	return !CurrentActions.IsEmpty();
 
+}
+
+bool UGoapPlanner::PlanAvailable() const
+{
+	return !CurrentActions.IsEmpty();
 }
 
 bool UGoapPlanner::BuildGraph(Node* Parent, TArray<Node*>& Leaves, const TSet<UGoapAction*>& UsableActions, const Dictionary& Goal)

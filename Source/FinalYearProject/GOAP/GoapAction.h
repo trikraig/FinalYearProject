@@ -33,6 +33,9 @@ public:
 	* Changing it will affect what actions are chosen during planning. */
 	float Cost;
 
+	/*Range required to be set as In Range of the TargetObject*/
+	float Range = 10.0f;
+
 	/* An action often has to perform on an object. This is that object. Can be null. */
 	AActor* TargetObject = nullptr;
 
@@ -67,6 +70,8 @@ public:
 	virtual bool RequiresInRange();
 
 	bool IsInRange() const { return bInRange; };
+
+	bool IsInRange(AActor* Agent) const;
 
 	void SetInRange(bool bInput) { bInRange = bInput; };
 
