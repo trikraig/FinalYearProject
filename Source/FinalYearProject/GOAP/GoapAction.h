@@ -80,4 +80,6 @@ public:
 
 	Dictionary GetConditions();
 	Dictionary GetEffects();
+
+	bool SetDestinationActorToTargetClass(AActor* Agent, TSubclassOf<AActor> TargetClass);
 };

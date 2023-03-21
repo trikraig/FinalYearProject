@@ -2,6 +2,7 @@
 
 
 #include "GoapAction.h"
+#include "Kismet/GameplayStatics.h"
 
 void UGoapAction::DoReset()
 {
@@ -63,4 +64,39 @@ TMap<FString, bool> UGoapAction::GetConditions()
 TMap<FString, bool> UGoapAction::GetEffects()
 {
 	return Effects;
+}
+
+bool UGoapAction::SetDestinationActorToTargetClass(AActor* Agent, TSubclassOf<AActor> TargetClass)
+{
+	TArray<AActor*> FoundStations;
+	UGameplayStatics::GetAllActorsOfClass(Agent->GetWorld(), TargetClass, FoundStations);
+
+	AActor* Closest = nullptr;
+	float ClosestDist = FLT_MAX;
+
+	for (auto Station : FoundStations)
+	{
+		if (!Closest)
+		{
+			Closest = Station;
+			ClosestDist = (Agent->GetActorLocation() - Station->GetActorLocation()).SquaredLength();
+		}
+		else
+		{
+			float Distance = (Agent->GetActorLocation() - Station->GetActorLocation()).SquaredLength();
+
+			if (Distance < ClosestDist)
+			{
+				//Set as closest
+				Closest = Station;
+				ClosestDist = Distance;
+			}
+		}
+	}
+
+	//If didn't find a station return false.
+	if (Closest == nullptr) return false;
+
+	TargetObject = Closest;
+	return true;
 }

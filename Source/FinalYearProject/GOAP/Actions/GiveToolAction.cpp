@@ -6,6 +6,7 @@
 
 UGiveToolAction::UGiveToolAction()
 {
+	AddPrecondition("HasTool", false); //Requires a tool to perform action
 	AddEffect("HasTool", true);
 }
 
@@ -26,37 +27,8 @@ bool UGiveToolAction::RequiresInRange()
 
 bool UGiveToolAction::CheckProceduralPrecondition(AActor* Agent)
 {
-	TArray<AActor*> FoundStations;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ToolClass, FoundStations);
+	//return SetDestinationActorToTargetClass(Agent, ChoppingBlockClass);
 
-	AActor* Closest = nullptr;
-	float ClosestDist = FLT_MAX;
-
-	for (auto Station : FoundStations)
-	{
-		if (!Closest)
-		{
-			Closest = Station;
-			ClosestDist = (Agent->GetActorLocation() - Station->GetActorLocation()).SquaredLength();
-		}
-		else
-		{
-			float Distance = (Agent->GetActorLocation() - Station->GetActorLocation()).SquaredLength();
-
-			if (Distance < ClosestDist)
-			{
-				//Set as closest
-				Closest = Station;
-				ClosestDist = Distance;
-			}
-		}
-	}
-
-	//If didn't find a station return false.
-	if (Closest == nullptr) return false;
-
-	Tool = Closest;
-	TargetObject = Closest;
 	return true;
 }
 

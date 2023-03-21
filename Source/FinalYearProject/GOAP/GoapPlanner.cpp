@@ -4,6 +4,7 @@
 #include "WorldStateSubSystem.h"
 #include "GoapAgent.h"
 #include "Actions/ChopTreeAction.h"
+#include "Actions/GiveToolAction.h"
 
 // Sets default values for this component's properties
 UGoapPlanner::UGoapPlanner()
@@ -13,6 +14,12 @@ UGoapPlanner::UGoapPlanner()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+
+	//AvailableActions.Add(&UChopTreeAction());
+	//AvailableActions.Add(&UGiveToolAction());
+
+
+
 }
 
 // Called when the game starts
@@ -21,6 +28,9 @@ void UGoapPlanner::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
+
+	AvailableActions.Add(NewObject<UChopTreeAction>());
+	AvailableActions.Add(NewObject<UGiveToolAction>());
 }
 
 // Called every frame
@@ -98,11 +108,16 @@ bool UGoapPlanner::Plan()
 		n = n->Parent;
 	}
 
+	for (auto& Leaf : Leaves)
+	{
+		delete Leaf;
+	}
+
 	return !CurrentActions.IsEmpty();
 
 }
 
-bool UGoapPlanner::BuildGraph(Node* Parent, TArray<Node*> Leaves, TSet<UGoapAction*> UsableActions, Dictionary Goal)
+bool UGoapPlanner::BuildGraph(Node* Parent, TArray<Node*>& Leaves, const TSet<UGoapAction*>& UsableActions, const Dictionary& Goal)
 {
 	bool bSolutionFound = false;
 
@@ -121,6 +136,7 @@ bool UGoapPlanner::BuildGraph(Node* Parent, TArray<Node*> Leaves, TSet<UGoapActi
 			{
 				// Solution Found
 				Leaves.Add(NextNode);
+				bSolutionFound = true;
 			}
 			else
 			{

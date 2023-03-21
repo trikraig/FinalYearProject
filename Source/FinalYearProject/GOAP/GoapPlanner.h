@@ -62,7 +62,7 @@ private:
 	 * 'runningCost' value where the lowest cost will be the best action
 	 * sequence.
 	 */
-	bool BuildGraph(Node* Parent, TArray<Node*> Leaves, TSet<UGoapAction*> UsableActions, Dictionary Goal);
+	bool BuildGraph(Node* Parent, TArray<Node*>& Leaves, const TSet<UGoapAction*>& UsableActions, const Dictionary& Goal);
 
 	/**
 	 * Check that all items in 'test' are in 'state'. If just one does not match or is not there

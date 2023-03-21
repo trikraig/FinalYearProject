@@ -12,6 +12,9 @@ void UWorldStateSubSystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	//Resulting from ChopTreeAction. Starting point with one action 
 	AddGoal(TEXT("HasFirewood"), true);
+	//Currently 
+	AddState("HasFirewood", false);
+	AddState("HasTool", false); //likely need to override world state with current state of agent, e.g. has tool.
 }
 
 TMap<FString, bool> UWorldStateSubSystem::GetWorldState()

@@ -29,37 +29,8 @@ bool UChopTreeAction::RequiresInRange()
 
 bool UChopTreeAction::CheckProceduralPrecondition(AActor* Agent)
 {
-	TArray<AActor*> FoundStations;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ChoppingBlockClass, FoundStations);
+	//return SetDestinationActorToTargetClass(Agent, ChoppingBlockClass);
 
-	AActor* Closest = nullptr;
-	float ClosestDist = FLT_MAX;
-
-	for (auto Station : FoundStations)
-	{
-		if (!Closest)
-		{
-			Closest = Station;
-			ClosestDist = (Agent->GetActorLocation() - Station->GetActorLocation()).SquaredLength();
-		}
-		else
-		{
-			float Distance = (Agent->GetActorLocation() - Station->GetActorLocation()).SquaredLength();
-
-			if (Distance < ClosestDist)
-			{
-				//Set as closest
-				Closest = Station;
-				ClosestDist = Distance;
-			}
-		}
-	}
-
-	//If didn't find a station return false.
-	if (Closest == nullptr) return false;
-
-	ChoppingBlock = Closest;
-	TargetObject = Closest;
 	return true;
 }
 
