@@ -74,8 +74,8 @@ bool UGoapPlanner::Plan()
 	TArray<Node*> Leaves;
 
 	// build graph
-	Node* RootNode = new Node(nullptr, 0, WorldState, nullptr);
-	bool bSuccess = BuildGraph(RootNode, Leaves, UsableActions, GoalState);
+	TUniquePtr<Node> RootNode = MakeUnique<Node>(nullptr, 0, WorldState, nullptr);
+	bool bSuccess = BuildGraph(RootNode.Get(), Leaves, UsableActions, GoalState);
 
 	if (!bSuccess)
 	{
@@ -103,14 +103,9 @@ bool UGoapPlanner::Plan()
 	{
 		if (n->Action != nullptr)
 		{
-			CurrentActions.Dequeue(n->Action);
+			CurrentActions.Enqueue(n->Action);
 		}
 		n = n->Parent;
-	}
-
-	for (auto& Leaf : Leaves)
-	{
-		delete Leaf;
 	}
 
 	return !CurrentActions.IsEmpty();
@@ -136,7 +131,9 @@ bool UGoapPlanner::BuildGraph(Node* Parent, TArray<Node*>& Leaves, const TSet<UG
 			// apply the action's effects to the parent state
 			Dictionary CurrentState = PopulateState(Parent->State, Action->GetEffects());
 
-			Node* NextNode = new Node(Parent, Parent->RunningCost + Action->Cost, CurrentState, Action);
+			Parent->Children.Add(MakeUnique<Node>(Parent, Parent->RunningCost + Action->Cost, CurrentState, Action));
+			Node* NextNode = Parent->Children.Last().Get();
+
 			if (InState(Goal, CurrentState))
 			{
 				// Solution Found

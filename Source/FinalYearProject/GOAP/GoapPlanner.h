@@ -14,6 +14,7 @@ class Node
 {
 public:
 	Node* Parent;
+	TArray<TUniquePtr<Node>> Children;
 	float RunningCost;
 	Dictionary State;
 	UGoapAction* Action;
@@ -24,6 +25,10 @@ public:
 		RunningCost = _runningcost;
 		State = _state;
 		Action = _action;
+	}
+	~Node()
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Node Memory Released")));
 	}
 };
 
