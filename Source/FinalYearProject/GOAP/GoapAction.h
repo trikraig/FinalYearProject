@@ -34,7 +34,7 @@ public:
 	float Cost;
 
 	/*Range required to be set as In Range of the TargetObject*/
-	float Range = 10.0f;
+	float Range = 100.0f;
 
 	/* An action often has to perform on an object. This is that object. Can be null. */
 	AActor* TargetObject = nullptr;
@@ -61,7 +61,7 @@ public:
 	 * if something happened and it can no longer perform. In this case
 	 * the action queue should clear out and the goal cannot be reached.
 	 */
-	virtual bool Perform(AActor* Agent);
+	virtual bool Perform(AActor* Agent, float Deltatime);
 
 	/**
 	* Does this action need to be within range of a target game object?
@@ -69,6 +69,10 @@ public:
 	*/
 	virtual bool RequiresInRange();
 
+	/**
+	* Are we in range of the target?
+	* The MoveTo state will set this and it gets reset each time this action is performed.
+	*/
 	bool IsInRange() const { return bInRange; };
 
 	bool IsInRange(AActor* Agent) const;

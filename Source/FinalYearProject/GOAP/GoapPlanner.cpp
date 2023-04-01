@@ -89,7 +89,7 @@ bool UGoapPlanner::Plan()
 	Node* Cheapest = nullptr;
 	for (Node* Leaf : Leaves)
 	{
-		if (!Cheapest || Leaf->RunningCost < Cheapest->RunningCost)
+		if (!Cheapest || Leaf->RunningCost > Cheapest->RunningCost)
 		{
 			Cheapest = Leaf;
 		}
@@ -99,13 +99,20 @@ bool UGoapPlanner::Plan()
 	CurrentActions.Empty();
 	Node* n = Cheapest;
 
+	TArray<Node*> Result;
+
 	while (n != nullptr)
 	{
 		if (n->Action != nullptr)
 		{
-			CurrentActions.Enqueue(n->Action);
+			Result.Insert(n, 0); //add to front of Result.
 		}
 		n = n->Parent;
+	}
+
+	for (Node* Action : Result)
+	{
+		CurrentActions.Enqueue(Action->Action); //add to back of queue
 	}
 
 	return !CurrentActions.IsEmpty();

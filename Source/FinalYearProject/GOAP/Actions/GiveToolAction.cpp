@@ -2,6 +2,7 @@
 
 #include "GiveToolAction.h"
 #include "Kismet/GameplayStatics.h"
+#include "../Tool.h"
 
 
 UGiveToolAction::UGiveToolAction()
@@ -27,12 +28,11 @@ bool UGiveToolAction::RequiresInRange()
 
 bool UGiveToolAction::CheckProceduralPrecondition(AActor* Agent)
 {
-	//return SetDestinationActorToTargetClass(Agent, ChoppingBlockClass);
-
-	return true;
+	//Finds closest tool and sets as destination.
+	return SetDestinationActorToTargetClass(Agent, ATool::StaticClass());
 }
 
-bool UGiveToolAction::Perform(AActor* Agent)
+bool UGiveToolAction::Perform(AActor* Agent, float Deltatime)
 {
 	static bool bResult = false;
 

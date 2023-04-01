@@ -14,15 +14,10 @@ class FINALYEARPROJECT_API UGiveToolAction : public UGoapAction
 {
 	GENERATED_BODY()
 
-public:
-
-	TSubclassOf<AActor> ToolClass;
-
 private:
 
+	//Set to true when successfully picked up tool.
 	bool bGivenTool = false;
-
-	AActor* Tool = nullptr;
 
 public:
 
@@ -36,6 +31,6 @@ public:
 
 	virtual bool CheckProceduralPrecondition(AActor* Agent) override;
 
-	virtual bool Perform(AActor* Agent) override;
+	virtual bool Perform(AActor* Agent, float Deltatime) override;
 	
 };

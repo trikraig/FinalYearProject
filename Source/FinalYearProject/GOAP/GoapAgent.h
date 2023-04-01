@@ -52,6 +52,6 @@ private:
 	void MoveTo_Exit();
 
 	void PerformAction_Enter();
-	void PerformAction_Update();
+	void PerformAction_Update(float DeltaTime);
 	void PerformAction_Exit();
 };

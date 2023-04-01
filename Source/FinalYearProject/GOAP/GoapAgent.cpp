@@ -10,9 +10,6 @@ AGoapAgent::AGoapAgent()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	USceneComponent* Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	SetRootComponent(Root);
-
 	//Setup Planner Component
 	Planner = CreateDefaultSubobject<UGoapPlanner>(TEXT("GOAP Planner Component"));
 }
@@ -69,7 +66,7 @@ void AGoapAgent::FSMUpdate(float DeltaTime)
 			PerformAction_Enter();
 		}
 		if (Event == GameEvents::ON_UPDATE) {
-			PerformAction_Update();
+			PerformAction_Update(DeltaTime);
 		}
 		break;
 	}
@@ -147,6 +144,9 @@ void AGoapAgent::MoveTo_Update()
 
 			if (Action->IsInRange(this))
 			{
+				//Mark that we are in range of action.
+				Action->SetInRange(true);
+				//Now can perform action.
 				SetFSMState(PERFORMACTION);
 			}
 		
@@ -170,7 +170,7 @@ void AGoapAgent::PerformAction_Enter()
 	Event = GameEvents::ON_UPDATE;
 }
 
-void AGoapAgent::PerformAction_Update()
+void AGoapAgent::PerformAction_Update(float DeltaTime)
 {
 	//Will be performing the Goap Action as per Action::Perform .
 
@@ -178,11 +178,14 @@ void AGoapAgent::PerformAction_Update()
 	UGoapAction* Action = nullptr;
 	Planner->CurrentActions.Peek(Action);
 
+	//Check this and shouldnt be done already.
+
 	if (Action && Action->IsDone())
 	{
 		//the action is already done, can be removed from queue.
 		Planner->CurrentActions.Dequeue(Action);
 	}
+
 
 	if (Planner->PlanAvailable())
 	{
@@ -194,7 +197,7 @@ void AGoapAgent::PerformAction_Update()
 		if (bInRange)
 		{
 			//We are in range so can perform the action
-			bool bSucess = Action->Perform(this);
+			bool bSucess = Action->Perform(this, DeltaTime);
 			if (!bSucess)
 			{
 				//action failed so need to abort and replan

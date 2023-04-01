@@ -26,7 +26,7 @@ bool UGoapAction::CheckProceduralPrecondition(AActor* Agent)
 	return Agent != nullptr;
 }
 
-bool UGoapAction::Perform(AActor* Agent)
+bool UGoapAction::Perform(AActor* Agent, float Deltatime)
 {
 	return Agent != nullptr;
 }
@@ -38,7 +38,8 @@ bool UGoapAction::RequiresInRange()
 
 bool UGoapAction::IsInRange(AActor* Agent) const
 {
-	return (TargetObject->GetActorLocation() - Agent->GetActorLocation()).Length() < Range;
+	float Distance = (TargetObject->GetActorLocation() - Agent->GetActorLocation()).Length();
+	return Distance < Range;
 }
 
 void UGoapAction::AddPrecondition(FString Key, bool bValue)
@@ -73,27 +74,27 @@ TMap<FString, bool> UGoapAction::GetEffects()
 
 bool UGoapAction::SetDestinationActorToTargetClass(AActor* Agent, TSubclassOf<AActor> TargetClass)
 {
-	TArray<AActor*> FoundStations;
-	UGameplayStatics::GetAllActorsOfClass(Agent->GetWorld(), TargetClass, FoundStations);
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(Agent->GetWorld(), TargetClass, FoundActors);
 
 	AActor* Closest = nullptr;
 	float ClosestDist = FLT_MAX;
 
-	for (auto Station : FoundStations)
+	for (auto Actor : FoundActors)
 	{
 		if (!Closest)
 		{
-			Closest = Station;
-			ClosestDist = (Agent->GetActorLocation() - Station->GetActorLocation()).SquaredLength();
+			Closest = Actor;
+			ClosestDist = (Agent->GetActorLocation() - Actor->GetActorLocation()).SquaredLength();
 		}
 		else
 		{
-			float Distance = (Agent->GetActorLocation() - Station->GetActorLocation()).SquaredLength();
+			float Distance = (Agent->GetActorLocation() - Actor->GetActorLocation()).SquaredLength();
 
 			if (Distance < ClosestDist)
 			{
 				//Set as closest
-				Closest = Station;
+				Closest = Actor;
 				ClosestDist = Distance;
 			}
 		}

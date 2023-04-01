@@ -29,12 +29,11 @@ bool UChopTreeAction::RequiresInRange()
 
 bool UChopTreeAction::CheckProceduralPrecondition(AActor* Agent)
 {
-	//return SetDestinationActorToTargetClass(Agent, ChoppingBlockClass);
-
-	return true;
+	//TODO - Add chopping block class.
+	return true; // SetDestinationActorToTargetClass(Agent, ChoppingBlockClass);
 }
 
-bool UChopTreeAction::Perform(AActor* Agent)
+bool UChopTreeAction::Perform(AActor* Agent, float Deltatime)
 {
 	//TODO - Action
 

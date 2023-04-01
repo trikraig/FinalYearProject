@@ -39,5 +39,5 @@ public:
 
 	virtual bool CheckProceduralPrecondition(AActor* Agent) override;
 
-	virtual bool Perform(AActor* Agent) override;
+	virtual bool Perform(AActor* Agent, float Deltatime) override;
 };
