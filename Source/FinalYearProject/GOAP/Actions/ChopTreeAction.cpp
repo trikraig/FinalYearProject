@@ -2,19 +2,22 @@
 
 #include "ChopTreeAction.h"
 #include "Kismet/GameplayStatics.h"
+#include "FinalYearProject/GOAP/ChoppingBlock.h"
+
 
 UChopTreeAction::UChopTreeAction()
 {
 	AddPrecondition("HasTool", true); //Requires a tool to perform action
 	AddPrecondition("HasFirewood", false); //If already have firewood, dont need more firewood
 	AddEffect("HasFirewood", true);
+	AddEffect("HasTool", false);
 }
 
 void UChopTreeAction::Reset()
 {
 	bChopped = false;
 	ChoppingBlock = nullptr;
-	StartTimer = 0.0f;
+	Progress = 0.0f;
 }
 
 bool UChopTreeAction::IsDone()
@@ -29,33 +32,22 @@ bool UChopTreeAction::RequiresInRange()
 
 bool UChopTreeAction::CheckProceduralPrecondition(AActor* Agent)
 {
-	//TODO - Add chopping block class.
-	return true; // SetDestinationActorToTargetClass(Agent, ChoppingBlockClass);
+	return SetDestinationActorToTargetClass(Agent, AChoppingBlock::StaticClass());
 }
 
 bool UChopTreeAction::Perform(AActor* Agent, float Deltatime)
 {
-	//TODO - Action
-
-	/*
-
-			if (startTime == 0)
-			startTime = Time.time;
-
-		if (Time.time - startTime > workDuration) {
-			// finished chopping
-			BackpackComponent backpack = (BackpackComponent)agent.GetComponent(typeof(BackpackComponent));
-			backpack.numFirewood += 5;
-			chopped = true;
-			ToolComponent tool = backpack.tool.GetComponent(typeof(ToolComponent)) as ToolComponent;
-			tool.use(0.34f);
-			if (tool.destroyed()) {
-				Destroy(backpack.tool);
-				backpack.tool = null;
-			}
-		}
-
-	*/
+	if (Progress < WorkDuration)
+	{
+		Progress += Deltatime;
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Agent Chopping Wood")));
+	}
+	else
+	{
+		//Action Complete
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Agent Finished Chopping Wood")));
+		bChopped = true;
+	}
 
 	return true;
 }

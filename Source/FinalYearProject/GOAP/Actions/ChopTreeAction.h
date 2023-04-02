@@ -14,17 +14,13 @@ class FINALYEARPROJECT_API UChopTreeAction : public UGoapAction
 {
 	GENERATED_BODY()
 
-public:
-
-	TSubclassOf<AActor> ChoppingBlockClass;
-
 private:
 
 	bool bChopped = false;
 
 	AActor* ChoppingBlock = nullptr;
 
-	float StartTimer = 0;
+	float Progress = 0;
 	float WorkDuration = 2.0f; //Seconds
 
 public:

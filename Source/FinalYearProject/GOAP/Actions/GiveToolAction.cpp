@@ -2,7 +2,7 @@
 
 #include "GiveToolAction.h"
 #include "Kismet/GameplayStatics.h"
-#include "../Tool.h"
+#include "FinalYearProject/GOAP/Tool.h"
 
 
 UGiveToolAction::UGiveToolAction()
@@ -34,7 +34,10 @@ bool UGiveToolAction::CheckProceduralPrecondition(AActor* Agent)
 
 bool UGiveToolAction::Perform(AActor* Agent, float Deltatime)
 {
-	static bool bResult = false;
+	//Give Tool To Agent 
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Agent Given Tool.")));
 
-	return bResult;
+	bGivenTool = true;
+
+	return bGivenTool;
 }

@@ -13,13 +13,6 @@ UGoapPlanner::UGoapPlanner()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
-
-	//AvailableActions.Add(&UChopTreeAction());
-	//AvailableActions.Add(&UGiveToolAction());
-
-
-
 }
 
 // Called when the game starts

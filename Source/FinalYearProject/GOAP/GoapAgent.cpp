@@ -133,14 +133,9 @@ void AGoapAgent::MoveTo_Update()
 
 	if (AAgentAIController* AI = Cast<AAgentAIController>(GetController()))
 	{
-		if (AI->TargetLocation == NULL)
+		if (Action->TargetObject)
 		{
-			AI->TargetLocation = Action->TargetObject;
-		}
-
-		if (AI->TargetLocation)
-		{
-			AI->GoToTarget();
+			AI->MoveToActor(Action->TargetObject);
 
 			if (Action->IsInRange(this))
 			{
