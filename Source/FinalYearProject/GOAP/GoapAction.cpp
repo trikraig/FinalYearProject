@@ -39,7 +39,7 @@ bool UGoapAction::RequiresInRange()
 bool UGoapAction::IsInRange(AActor* Agent) const
 {
 	float Distance = (TargetObject->GetActorLocation() - Agent->GetActorLocation()).Length();
-	return Distance < Range;
+	return Distance <= Range;
 }
 
 void UGoapAction::AddPrecondition(FString Key, bool bValue)

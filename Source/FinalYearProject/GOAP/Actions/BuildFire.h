@@ -4,36 +4,30 @@
 
 #include "CoreMinimal.h"
 #include "FinalYearProject/GOAP/GoapAction.h"
-#include "ChopTreeAction.generated.h"
+#include "BuildFire.generated.h"
 
 /**
- *
+ * 
  */
 UCLASS()
-class FINALYEARPROJECT_API UChopTreeAction : public UGoapAction
+class FINALYEARPROJECT_API UBuildFire : public UGoapAction
 {
 	GENERATED_BODY()
 
 private:
 
-	bool bChopped = false;
-
-	AActor* ChoppingBlock = nullptr;
-
+	bool bBuiltFire = false;
+	AActor* FirePit = nullptr;
 	float Progress = 0;
-	float WorkDuration = 2.0f; 
+	float WorkDuration = 10.0f;
 
 public:
 
-	UChopTreeAction();
-
+	UBuildFire();
 	virtual void Reset() override;
-
 	virtual bool IsDone() override;
-
 	virtual bool RequiresInRange() override;
-
 	virtual bool CheckProceduralPrecondition(AActor* Agent) override;
-
 	virtual bool Perform(AActor* Agent, float Deltatime) override;
+	
 };

@@ -34,7 +34,7 @@ public:
 	float Cost;
 
 	/*Range required to be set as In Range of the TargetObject*/
-	float Range = 100.0f;
+	float Range = 150.0f;
 
 	/* An action often has to perform on an object. This is that object. Can be null. */
 	AActor* TargetObject = nullptr;

@@ -5,6 +5,7 @@
 #include "GoapAgent.h"
 #include "Actions/ChopTreeAction.h"
 #include "Actions/GiveToolAction.h"
+#include "Actions/BuildFire.h"
 
 // Sets default values for this component's properties
 UGoapPlanner::UGoapPlanner()
@@ -24,6 +25,7 @@ void UGoapPlanner::BeginPlay()
 
 	AvailableActions.Add(NewObject<UChopTreeAction>());
 	AvailableActions.Add(NewObject<UGiveToolAction>());
+	AvailableActions.Add(NewObject<UBuildFire>());
 }
 
 // Called every frame
