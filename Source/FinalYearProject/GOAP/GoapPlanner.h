@@ -49,6 +49,10 @@ public:
 
 	TQueue<UGoapAction*> CurrentActions;
 
+	Dictionary GoalState;
+
+	Dictionary CurrentState;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -60,6 +64,12 @@ public:
 	bool Plan();
 
 	bool PlanAvailable() const;
+
+	void AddGoal(const FString& NewGoal, bool bSetting);
+	void RemoveGoal(const FString& Goal);
+
+	void AddState(const FString& NewState, bool bSetting);
+	void RemoveState(const FString& State);
 
 private:
 

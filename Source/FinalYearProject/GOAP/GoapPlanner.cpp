@@ -26,6 +26,13 @@ void UGoapPlanner::BeginPlay()
 	AvailableActions.Add(NewObject<UChopTreeAction>());
 	AvailableActions.Add(NewObject<UGiveToolAction>());
 	AvailableActions.Add(NewObject<UBuildFire>());
+
+	//Resulting from ChopTreeAction. Starting point with one action 
+	AddGoal(TEXT("HasFire"), true);
+
+	AddState("HasFire", false);
+	AddState("HasFirewood", false);
+	AddState("HasTool", false); //likely need to override world state with current state of agent, e.g. has tool.
 }
 
 // Called every frame
@@ -46,7 +53,8 @@ bool UGoapPlanner::Plan()
 	check(WorldStateSubSystem);
 
 	auto WorldState = WorldStateSubSystem->GetWorldState();
-	auto GoalState = WorldStateSubSystem->GetGoalState();
+
+	Dictionary CombinedState = PopulateState(CurrentState, WorldState);
 
 	AGoapAgent* Agent = Cast<AGoapAgent>(GetOwner());
 	check(Agent);
@@ -69,7 +77,7 @@ bool UGoapPlanner::Plan()
 	TArray<Node*> Leaves;
 
 	// build graph
-	TUniquePtr<Node> RootNode = MakeUnique<Node>(nullptr, 0, WorldState, nullptr);
+	TUniquePtr<Node> RootNode = MakeUnique<Node>(nullptr, 0, CombinedState, nullptr);
 	bool bSuccess = BuildGraph(RootNode.Get(), Leaves, UsableActions, GoalState);
 
 	if (!bSuccess)
@@ -119,6 +127,26 @@ bool UGoapPlanner::PlanAvailable() const
 	return !CurrentActions.IsEmpty();
 }
 
+void UGoapPlanner::AddGoal(const FString& NewGoal, bool bSetting)
+{
+	GoalState.FindOrAdd(NewGoal, bSetting);
+}
+
+void UGoapPlanner::RemoveGoal(const FString& Goal)
+{
+	GoalState.Remove(Goal);
+}
+
+void UGoapPlanner::AddState(const FString& NewState, bool bSetting)
+{
+	CurrentState.FindOrAdd(NewState, bSetting);
+}
+
+void UGoapPlanner::RemoveState(const FString& State)
+{
+	CurrentState.Remove(State);
+}
+
 bool UGoapPlanner::BuildGraph(Node* Parent, TArray<Node*>& Leaves, const TSet<UGoapAction*>& UsableActions, const Dictionary& Goal)
 {
 	bool bSolutionFound = false;
@@ -131,12 +159,12 @@ bool UGoapPlanner::BuildGraph(Node* Parent, TArray<Node*>& Leaves, const TSet<UG
 		if (InState(Action->GetConditions(), Parent->State))
 		{
 			// apply the action's effects to the parent state
-			Dictionary CurrentState = PopulateState(Parent->State, Action->GetEffects());
+			Dictionary NewState = PopulateState(Parent->State, Action->GetEffects());
 
-			Parent->Children.Add(MakeUnique<Node>(Parent, Parent->RunningCost + Action->Cost, CurrentState, Action));
+			Parent->Children.Add(MakeUnique<Node>(Parent, Parent->RunningCost + Action->Cost, NewState, Action));
 			Node* NextNode = Parent->Children.Last().Get();
 
-			if (InState(Goal, CurrentState))
+			if (InState(Goal, NewState))
 			{
 				// Solution Found
 				Leaves.Add(NextNode);
@@ -181,10 +209,10 @@ bool UGoapPlanner::InState(const Dictionary& Test, const Dictionary& State)
 	return true;
 }
 
-Dictionary UGoapPlanner::PopulateState(const Dictionary& CurrentState, const Dictionary& StateChange)
+Dictionary UGoapPlanner::PopulateState(const Dictionary& A, const Dictionary& B)
 {
-	Dictionary ReturnState = CurrentState;
-	ReturnState.Append(StateChange);
+	Dictionary ReturnState = A;
+	ReturnState.Append(B);
 	return ReturnState;
 }
 
