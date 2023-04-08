@@ -24,7 +24,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
 	//Any actions that can be performed by this type of agent
 	virtual void AddAvailableActions();
 	//End desired goal - e.g. BeCured

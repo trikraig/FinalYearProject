@@ -17,16 +17,22 @@ class FINALYEARPROJECT_API UGoapAction : public UObject
 	GENERATED_BODY()
 public:
 
-	UGoapAction() {};
+	UGoapAction();
 
-protected:
+protected: /*functions*/
+
+	virtual void AddPreconditions();
+	virtual void AddEffects();
+	virtual void Reset();
+
+protected: /*properties*/
 
 	Dictionary Preconditions;
 	Dictionary Effects;
 
 	bool bInRange = false;
 
-public:
+public: /*Designer Facing Properties*/
 
 	/* The cost of performing the action.
 	* Figure out a weight that suits the action.
@@ -36,15 +42,15 @@ public:
 	/*Range required to be set as In Range of the TargetObject*/
 	float Range = 150.0f;
 
+	bool bIsDone = false;
+
 	/* An action often has to perform on an object. This is that object. Can be null. */
 	AActor* TargetObject = nullptr;
 
 public:
 
-	void DoReset();
-
 	/*Reset any variables that need to be reset before planning happens again.*/
-	virtual void Reset();
+	void DoReset();
 
 	/* Is the action done? */
 	virtual bool IsDone();
@@ -91,4 +97,5 @@ public:
 	Dictionary GetEffects();
 
 	bool SetDestinationActorToTargetClass(AActor* Agent, TSubclassOf<AActor> TargetClass);
+	bool SetDestinationActorToTargetWithTag(AActor* Agent, const FName& TagName);
 };

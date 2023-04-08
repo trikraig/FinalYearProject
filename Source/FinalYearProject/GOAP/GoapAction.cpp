@@ -4,8 +4,23 @@
 #include "GoapAction.h"
 #include "Kismet/GameplayStatics.h"
 
+UGoapAction::UGoapAction()
+{
+	AddPreconditions();
+	AddEffects();
+}
+
+void UGoapAction::AddPreconditions()
+{
+}
+
+void UGoapAction::AddEffects()
+{
+}
+
 void UGoapAction::DoReset()
 {
+	bIsDone = false;
 	bInRange = false;
 	TargetObject = nullptr;
 	Reset();
@@ -18,7 +33,7 @@ void UGoapAction::Reset()
 
 bool UGoapAction::IsDone()
 {
-	return true;
+	return bIsDone;
 }
 
 bool UGoapAction::CheckProceduralPrecondition(AActor* Agent)
@@ -106,3 +121,39 @@ bool UGoapAction::SetDestinationActorToTargetClass(AActor* Agent, TSubclassOf<AA
 	TargetObject = Closest;
 	return true;
 }
+
+bool UGoapAction::SetDestinationActorToTargetWithTag(AActor* Agent, const FName& TagName)
+{
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsWithTag(Agent->GetWorld(), TagName, FoundActors);
+
+	AActor* Closest = nullptr;
+	float ClosestDist = FLT_MAX;
+
+	for (auto Actor : FoundActors)
+	{
+		if (!Closest)
+		{
+			Closest = Actor;
+			ClosestDist = (Agent->GetActorLocation() - Actor->GetActorLocation()).SquaredLength();
+		}
+		else
+		{
+			float Distance = (Agent->GetActorLocation() - Actor->GetActorLocation()).SquaredLength();
+
+			if (Distance < ClosestDist)
+			{
+				//Set as closest
+				Closest = Actor;
+				ClosestDist = Distance;
+			}
+		}
+	}
+
+	//If didn't find a station return false.
+	if (Closest == nullptr) return false;
+
+	TargetObject = Closest;
+	return true;
+}
+
