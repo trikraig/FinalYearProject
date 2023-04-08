@@ -2,8 +2,7 @@
 
 #include "GiveToolAction.h"
 #include "Kismet/GameplayStatics.h"
-#include "FinalYearProject/GOAP/Tool.h"
-
+#include "../Tool.h"
 
 UGiveToolAction::UGiveToolAction()
 {

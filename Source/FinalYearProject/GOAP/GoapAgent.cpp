@@ -18,6 +18,41 @@ AGoapAgent::AGoapAgent()
 void AGoapAgent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//Will initialize planner from here. 
+	//Each Agent will be unique with different actions.
+	//Easier to make this the common point of divergence for each agent type
+	AddAvailableActions();
+	AddGoals();
+	SetInitialState();
+}
+
+void AGoapAgent::AddAvailableActions()
+{
+	check(Planner);
+
+	//Example Action Being added 
+	//Planner->AvailableActions.Add(NewObject<UChopTreeAction>());
+	//Planner->AvailableActions.Add(NewObject<UGiveToolAction>());
+	//Planner->AvailableActions.Add(NewObject<UBuildFire>());
+}
+
+void AGoapAgent::AddGoals()
+{
+	check(Planner);
+
+	//Example goal 
+	//Planner->AddGoal(TEXT("HasFire"), true);
+}
+
+void AGoapAgent::SetInitialState()
+{
+	check(Planner);
+
+	//Example beginning state. - MUST INCLUDE FALSE CONDITIONS.
+	//Planner->AddState("HasFire", false);
+	//Planner->AddState("HasFirewood", false);
+	//Planner->AddState("HasTool", false); //likely need to override world state with current state of agent, e.g. has tool.
 }
 
 // Called every frame

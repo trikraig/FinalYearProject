@@ -3,44 +3,14 @@
 #include "GoapPlanner.h"
 #include "WorldStateSubSystem.h"
 #include "GoapAgent.h"
-#include "Actions/ChopTreeAction.h"
-#include "Actions/GiveToolAction.h"
-#include "Actions/BuildFire.h"
+
 
 // Sets default values for this component's properties
 UGoapPlanner::UGoapPlanner()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-}
-
-// Called when the game starts
-void UGoapPlanner::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-
-	AvailableActions.Add(NewObject<UChopTreeAction>());
-	AvailableActions.Add(NewObject<UGiveToolAction>());
-	AvailableActions.Add(NewObject<UBuildFire>());
-
-	//Resulting from ChopTreeAction. Starting point with one action 
-	AddGoal(TEXT("HasFire"), true);
-
-	AddState("HasFire", false);
-	AddState("HasFirewood", false);
-	AddState("HasTool", false); //likely need to override world state with current state of agent, e.g. has tool.
-}
-
-// Called every frame
-void UGoapPlanner::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 bool UGoapPlanner::Plan()

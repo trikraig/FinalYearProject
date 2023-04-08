@@ -2,7 +2,8 @@
 
 
 #include "Firepit.h"
-#include "WorldStateSubSystem.h"
+#include "../WorldStateSubSystem.h"
+
 
 // Sets default values
 AFirepit::AFirepit()

@@ -2,8 +2,7 @@
 
 #include "ChopTreeAction.h"
 #include "Kismet/GameplayStatics.h"
-#include "FinalYearProject/GOAP/ChoppingBlock.h"
-
+#include "../ChoppingBlock.h"
 
 UChopTreeAction::UChopTreeAction()
 {

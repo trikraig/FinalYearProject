@@ -25,6 +25,13 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	//Any actions that can be performed by this type of agent
+	virtual void AddAvailableActions();
+	//End desired goal - e.g. BeCured
+	virtual void AddGoals();
+	//Starting state.
+	virtual void SetInitialState();
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
