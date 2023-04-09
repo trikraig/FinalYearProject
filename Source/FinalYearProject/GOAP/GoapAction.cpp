@@ -3,6 +3,7 @@
 
 #include "GoapAction.h"
 #include "Kismet/GameplayStatics.h"
+#include "WorldStateSubSystem.h"
 
 UGoapAction::UGoapAction()
 {
@@ -65,6 +66,24 @@ void UGoapAction::AddEffect(FString Key, bool bValue)
 void UGoapAction::RemoveEffect(FString Key)
 {
 	Effects.Remove(Key);
+}
+
+void UGoapAction::AddWorldEffect(FString Key, bool bValue)
+{
+	WorldEffects.Add(Key, bValue);
+}
+
+void UGoapAction::PostPerform(AActor* Agent)
+{
+	UGameInstance* GameInstance = GetWorld()->GetGameInstance();
+	check(GameInstance);
+
+	UWorldStateSubSystem* WorldStateSubSystem = GameInstance->GetSubsystem<UWorldStateSubSystem>();
+	check(WorldStateSubSystem);
+
+	//Apply resulting effects to World State.
+	auto WorldState = WorldStateSubSystem->GetWorldState();
+	WorldState.Append(WorldEffects);	
 }
 
 TMap<FString, bool> UGoapAction::GetConditions()

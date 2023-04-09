@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Subsystems/Subsystem.h"
 #include "GoapAction.h"
+#include "Hospital/Patient.h"
 #include "WorldStateSubSystem.generated.h"
 
 /**
@@ -24,8 +25,9 @@ public:
 	void AddState(const FString& NewState, bool bSetting);
 	void RemoveState(const FString& NewState);
 
-protected:
-
+public:
 	Dictionary WorldState;
+
+	TQueue<APatient*> WaitingPatients;
 
 };

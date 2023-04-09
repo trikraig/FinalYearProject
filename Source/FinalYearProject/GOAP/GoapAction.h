@@ -27,6 +27,7 @@ protected: /*properties*/
 
 	Dictionary Preconditions;
 	Dictionary Effects;
+	Dictionary WorldEffects;
 
 	bool bInRange = false;
 
@@ -90,6 +91,11 @@ public:
 	void AddEffect(FString Key, bool bValue);
 
 	void RemoveEffect(FString Key);
+
+	void AddWorldEffect(FString Key, bool bValue);
+
+	//Apply any effects to world if any when done.
+	virtual void PostPerform(AActor* Agent);
 
 	Dictionary GetConditions();
 	Dictionary GetEffects();

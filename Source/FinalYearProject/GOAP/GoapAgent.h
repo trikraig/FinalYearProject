@@ -12,14 +12,12 @@ class FINALYEARPROJECT_API AGoapAgent : public ACharacter
 {
 	GENERATED_BODY()
 
-protected:
-
-	UPROPERTY()
-	UGoapPlanner* Planner = nullptr;
-
 public:
 	// Sets default values for this character's properties
 	AGoapAgent();
+
+	UPROPERTY()
+		UGoapPlanner* Planner = nullptr;
 
 protected:
 	// Called when the game starts or when spawned

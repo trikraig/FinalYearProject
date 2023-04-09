@@ -179,6 +179,19 @@ bool UGoapPlanner::InState(const Dictionary& Test, const Dictionary& State)
 	return true;
 }
 
+bool UGoapPlanner::InState(const FString& CheckState, bool bValue)
+{
+	for (const TPair<FString, bool>& TestPair : CurrentState)
+	{
+		if (TestPair.Key == CheckState)
+		{
+			return TestPair.Value == bValue;
+		}
+	}
+
+	return false;
+}
+
 Dictionary UGoapPlanner::PopulateState(const Dictionary& A, const Dictionary& B)
 {
 	Dictionary ReturnState = A;

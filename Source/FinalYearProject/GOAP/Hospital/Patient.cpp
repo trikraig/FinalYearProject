@@ -35,7 +35,7 @@ void APatient::AddAvailableActions()
 	GoToWaitingArea->TagName = "WaitingArea";
 	GoToWaitingArea->AddPrecondition(TEXT("AtHospital"), true);
 	GoToWaitingArea->AddPrecondition(TEXT("HasRegistered"), true);
-	GoToWaitingArea->AddEffect(TEXT("WaitingForTreatment"), true);
+	GoToWaitingArea->AddWorldEffect(TEXT("WaitingForTreatment"), true);
 	Planner->AvailableActions.Add(GoToWaitingArea);
 
 	//Go Home Action

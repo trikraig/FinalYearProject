@@ -212,6 +212,9 @@ void AGoapAgent::PerformAction_Update(float DeltaTime)
 
 	if (Action && Action->IsDone())
 	{
+		//Any resulting world state changes from Action apply now.
+		Action->PostPerform(this);
+
 		//the action is already done, can be removed from queue.
 		Planner->CurrentActions.Dequeue(Action);
 	}

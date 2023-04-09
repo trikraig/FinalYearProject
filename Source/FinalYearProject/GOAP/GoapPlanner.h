@@ -65,6 +65,8 @@ public:
 	void AddState(const FString& NewState, bool bSetting);
 	void RemoveState(const FString& State);
 
+	bool InState(const FString& CheckState, bool bValue);
+
 private:
 
 	/**
