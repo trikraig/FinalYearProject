@@ -21,8 +21,6 @@ public:
 
 protected: /*functions*/
 
-	virtual void AddPreconditions();
-	virtual void AddEffects();
 	virtual void Reset();
 
 protected: /*properties*/

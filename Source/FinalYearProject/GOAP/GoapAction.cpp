@@ -6,16 +6,6 @@
 
 UGoapAction::UGoapAction()
 {
-	AddPreconditions();
-	AddEffects();
-}
-
-void UGoapAction::AddPreconditions()
-{
-}
-
-void UGoapAction::AddEffects()
-{
 }
 
 void UGoapAction::DoReset()

@@ -4,25 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "FinalYearProject/GOAP/GoapAction.h"
-#include "Action_GoHome.generated.h"
+#include "Action_GoToActorWithTag.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FINALYEARPROJECT_API UAction_GoHome : public UGoapAction
+class FINALYEARPROJECT_API UAction_GoToActorWithTag : public UGoapAction
 {
 	GENERATED_BODY()
+
 public:
 
-	UAction_GoHome();
+	FName TagName;
+
+public:
+	UAction_GoToActorWithTag();
 
 protected:
 
-	void AddPreconditions() override;
-	void AddEffects() override;	
 	bool RequiresInRange() override;
 	virtual bool CheckProceduralPrecondition(AActor* Agent) override;
 	bool Perform(AActor* Agent, float Deltatime) override;
-
+	
 };
