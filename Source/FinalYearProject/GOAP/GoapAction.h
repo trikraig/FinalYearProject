@@ -31,8 +31,6 @@ protected: /*properties*/
 
 	bool bInRange = false;
 
-	bool bFirstUpdate = true;
-
 public: /*Designer Facing Properties*/
 
 	/* The cost of performing the action.
@@ -95,8 +93,6 @@ public:
 	void RemoveEffect(FString Key);
 
 	void AddWorldEffect(FString Key, bool bValue);
-
-	virtual void PrePerform(AActor* Agent);
 
 	//Apply any effects to world if any when done.
 	virtual void PostPerform(AActor* Agent);
