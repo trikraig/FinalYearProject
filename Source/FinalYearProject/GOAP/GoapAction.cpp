@@ -14,6 +14,7 @@ void UGoapAction::DoReset()
 	bIsDone = false;
 	bInRange = false;
 	TargetObject = nullptr;
+	bFirstUpdate = true;
 	Reset();
 }
 
@@ -34,6 +35,12 @@ bool UGoapAction::CheckProceduralPrecondition(AActor* Agent)
 
 bool UGoapAction::Perform(AActor* Agent, float Deltatime)
 {
+	if (bFirstUpdate)
+	{
+		PrePerform(Agent);
+		bFirstUpdate = false;
+	}
+
 	return Agent != nullptr;
 }
 
@@ -71,6 +78,11 @@ void UGoapAction::RemoveEffect(FString Key)
 void UGoapAction::AddWorldEffect(FString Key, bool bValue)
 {
 	WorldEffects.Add(Key, bValue);
+}
+
+void UGoapAction::PrePerform(AActor* Agent)
+{
+
 }
 
 void UGoapAction::PostPerform(AActor* Agent)
