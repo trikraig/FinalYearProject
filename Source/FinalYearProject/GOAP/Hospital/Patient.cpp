@@ -3,6 +3,7 @@
 
 #include "Patient.h"
 #include "Actions/Action_GoToActorWithTag.h"
+#include "Actions/Action_GoToWaitingRoom.h"
 
 
 void APatient::AddAvailableActions()
@@ -31,11 +32,12 @@ void APatient::AddAvailableActions()
 	Planner->AvailableActions.Add(RegisterAtReception);
 
 	//Wait in Waiting Area - WaitingArea
-	auto GoToWaitingArea = NewObject<UAction_GoToActorWithTag>();
+	auto GoToWaitingArea = NewObject<UAction_GoToWaitingRoom>();
 	GoToWaitingArea->TagName = "WaitingArea";
 	GoToWaitingArea->AddPrecondition(TEXT("AtHospital"), true);
 	GoToWaitingArea->AddPrecondition(TEXT("HasRegistered"), true);
-	GoToWaitingArea->AddWorldEffect(TEXT("WaitingForTreatment"), true);
+	GoToWaitingArea->AddEffect(TEXT("WaitingForTreatment"), true);
+
 	Planner->AvailableActions.Add(GoToWaitingArea);
 
 	//Go Home Action

@@ -75,7 +75,7 @@ void UGoapAction::AddWorldEffect(FString Key, bool bValue)
 
 void UGoapAction::PostPerform(AActor* Agent)
 {
-	UGameInstance* GameInstance = GetWorld()->GetGameInstance();
+	UGameInstance* GameInstance = Agent->GetWorld()->GetGameInstance();
 	check(GameInstance);
 
 	UWorldStateSubSystem* WorldStateSubSystem = GameInstance->GetSubsystem<UWorldStateSubSystem>();

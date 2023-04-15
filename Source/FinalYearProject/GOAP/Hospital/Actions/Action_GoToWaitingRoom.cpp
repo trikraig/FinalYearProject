@@ -10,13 +10,11 @@ void UAction_GoToWaitingRoom::PostPerform(AActor* Actor)
 {
 	Super::PostPerform(Actor);
 
-	UGameInstance* GameInstance = GetWorld()->GetGameInstance();
+	UGameInstance* GameInstance = Actor->GetWorld()->GetGameInstance();
 	check(GameInstance);
 
 	UWorldStateSubSystem* WorldStateSubSystem = GameInstance->GetSubsystem<UWorldStateSubSystem>();
 	check(WorldStateSubSystem);
-
-	auto WorldState = WorldStateSubSystem->GetWorldState();
 
 	APatient* Patient = Cast<APatient>(Actor);
 	check(Patient);

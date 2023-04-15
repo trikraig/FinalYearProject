@@ -24,7 +24,7 @@ public:
 protected:
 
 	bool RequiresInRange() override;
-	virtual bool CheckProceduralPrecondition(AActor* Agent) override;
-	bool Perform(AActor* Agent, float Deltatime) override;
+	virtual bool CheckProceduralPrecondition(AActor* Agent);
+	virtual bool Perform(AActor* Agent, float Deltatime);
 	
 };

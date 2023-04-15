@@ -17,4 +17,5 @@ class FINALYEARPROJECT_API UAction_GoToWaitingRoom : public UAction_GoToActorWit
 public:
 
 	void PostPerform(AActor* Actor) override;
+
 };

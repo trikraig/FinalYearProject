@@ -2,18 +2,22 @@
 
 
 #include "Nurse.h"
+#include "Actions/Action_GetPatient.h"
 
 void ANurse::AddAvailableActions()
 {
 	Super::AddAvailableActions();
 
+	auto GetPatientAction = NewObject<UAction_GetPatient>();
+	GetPatientAction->AddEffect(TEXT("GetPatient"), true);
+	Planner->AvailableActions.Add(GetPatientAction);
 }
 
 void ANurse::AddGoals()
 {
 	Super::AddGoals();
 
-	Planner->AddGoal(TEXT("TreatPatient"), true);
+	Planner->AddGoal(TEXT("GetPatient"), true);
 
 }
 
