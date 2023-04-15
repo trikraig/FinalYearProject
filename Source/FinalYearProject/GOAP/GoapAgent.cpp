@@ -12,6 +12,9 @@ AGoapAgent::AGoapAgent()
 
 	//Setup Planner Component
 	Planner = CreateDefaultSubobject<UGoapPlanner>(TEXT("GOAP Planner Component"));
+
+	//Setup Inventory Component
+	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory Component"));
 }
 
 // Called when the game starts or when spawned

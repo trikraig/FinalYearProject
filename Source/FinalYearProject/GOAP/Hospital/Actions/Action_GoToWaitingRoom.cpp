@@ -19,6 +19,6 @@ void UAction_GoToWaitingRoom::PostPerform(AActor* Actor)
 	APatient* Patient = Cast<APatient>(Actor);
 	check(Patient);
 
-	WorldStateSubSystem->WaitingPatients.Enqueue(Patient);
+	WorldStateSubSystem->Patients.Enqueue(Patient);
 	WorldStateSubSystem->TotalWaitingPatients++;
 }

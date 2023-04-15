@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GoapPlanner.h"
+#include "InventoryComponent.h"
 #include "GoapAgent.generated.h"
 
 UCLASS()
@@ -17,7 +18,10 @@ public:
 	AGoapAgent();
 
 	UPROPERTY()
-		UGoapPlanner* Planner = nullptr;
+	UGoapPlanner* Planner = nullptr;
+
+	UPROPERTY()
+	UInventoryComponent* Inventory = nullptr;
 
 protected:
 	// Called when the game starts or when spawned

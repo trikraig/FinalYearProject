@@ -21,6 +21,9 @@ public:
 
 	UWorldStateSubSystem();
 
+	/** Implement this for initialization of instances of the system */
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+
 	Dictionary GetWorldState();
 
 	void AddState(const FString& NewState, bool bSetting);
@@ -29,7 +32,10 @@ public:
 public:
 
 	Dictionary WorldState;
-	TQueue<APatient*> WaitingPatients;
+
+	TQueue<APatient*> Patients;
+	TQueue<AActor*> Cubicles;
+
 	int32 TotalWaitingPatients = 0;
 
 };

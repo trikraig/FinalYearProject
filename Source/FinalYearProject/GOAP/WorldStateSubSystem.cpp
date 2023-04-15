@@ -2,9 +2,28 @@
 
 
 #include "WorldStateSubSystem.h"
+#include "Kismet/GameplayStatics.h"
 
 UWorldStateSubSystem::UWorldStateSubSystem()
 {
+}
+
+void UWorldStateSubSystem::Initialize(FSubsystemCollectionBase& Collection)
+{
+	Super::Initialize(Collection);
+
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "Cubicle", FoundActors);
+
+	for (AActor* Actor : FoundActors)
+	{
+		Cubicles.Enqueue(Actor);
+	}
+
+	if (!Cubicles.IsEmpty())
+	{
+		AddState("FreeCubicles", true);
+	}
 }
 
 TMap<FString, bool> UWorldStateSubSystem::GetWorldState()
