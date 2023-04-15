@@ -22,4 +22,5 @@ void UAction_GoToWaitingRoom::PostPerform(AActor* Actor)
 	check(Patient);
 
 	WorldStateSubSystem->WaitingPatients.Enqueue(Patient);
+	WorldStateSubSystem->TotalWaitingPatients++;
 }

@@ -6,6 +6,7 @@
 #include "Subsystems/Subsystem.h"
 #include "GoapAction.h"
 #include "Hospital/Patient.h"
+#include "Containers/CircularQueue.h"
 #include "WorldStateSubSystem.generated.h"
 
 /**
@@ -26,8 +27,9 @@ public:
 	void RemoveState(const FString& NewState);
 
 public:
-	Dictionary WorldState;
 
+	Dictionary WorldState;
 	TQueue<APatient*> WaitingPatients;
+	int32 TotalWaitingPatients = 0;
 
 };
