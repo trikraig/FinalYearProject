@@ -29,6 +29,7 @@ public:
 	void AddState(const FString& NewState, bool bSetting);
 	void RemoveState(const FString& NewState);
 
+
 public:
 
 	Dictionary WorldState;
@@ -36,6 +37,7 @@ public:
 	TQueue<APatient*> Patients;
 	TQueue<AActor*> Cubicles;
 
+	UPROPERTY(BlueprintReadOnly)
 	int32 TotalWaitingPatients = 0;
 
 };

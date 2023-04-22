@@ -22,3 +22,8 @@ void UAction_GoToWaitingRoom::PostPerform(AActor* Actor)
 	WorldStateSubSystem->Patients.Enqueue(Patient);
 	WorldStateSubSystem->TotalWaitingPatients++;
 }
+
+bool UAction_GoToWaitingRoom::RequiresInRange()
+{
+	return true;
+}

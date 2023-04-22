@@ -159,21 +159,16 @@ bool UGoapPlanner::InState(const Dictionary& Test, const Dictionary& State)
 
 	for (const TPair<FString, bool>& TestPair : Test)
 	{
-		bool bMatch = false;
-
 		for (const TPair<FString, bool>& StatePair : State)
 		{
-			if (StatePair.Key == TestPair.Key &&
-				StatePair.Value == TestPair.Value)
+			if (StatePair.Key == TestPair.Key)
 			{
-				bMatch = true;
+				if (StatePair.Value != TestPair.Value)
+				{
+					return false;
+				}
 			}
 		}
-
-		//If any state condition not met, set return value to false.
-		if (!bMatch) 
-			return false;
-
 	}
 
 	return true;

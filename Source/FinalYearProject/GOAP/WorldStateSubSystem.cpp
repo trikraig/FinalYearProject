@@ -40,3 +40,4 @@ void UWorldStateSubSystem::RemoveState(const FString& State)
 {
 	WorldState.Remove(State);
 }
+

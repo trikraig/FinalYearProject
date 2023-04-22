@@ -74,9 +74,9 @@ void UGoapAction::AddWorldEffect(FString Key, bool bValue)
 	WorldEffects.Add(Key, bValue);
 }
 
-void UGoapAction::PostPerform(AActor* Agent)
+void UGoapAction::PostPerform(AActor* Actor)
 {
-	UGameInstance* GameInstance = Agent->GetWorld()->GetGameInstance();
+	UGameInstance* GameInstance = Actor->GetWorld()->GetGameInstance();
 	check(GameInstance);
 
 	UWorldStateSubSystem* WorldStateSubSystem = GameInstance->GetSubsystem<UWorldStateSubSystem>();
@@ -85,6 +85,11 @@ void UGoapAction::PostPerform(AActor* Agent)
 	//Apply resulting effects to World State.
 	auto WorldState = WorldStateSubSystem->GetWorldState();
 	WorldState.Append(WorldEffects);	
+
+	if (AGoapAgent* Agent = Cast<AGoapAgent>(Actor))
+	{
+		Agent->Planner->CurrentState.Append(Effects);
+	}
 }
 
 TMap<FString, bool> UGoapAction::GetConditions()
