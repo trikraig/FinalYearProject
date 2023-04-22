@@ -4,6 +4,7 @@
 #include "Patient.h"
 #include "Actions/Action_GoToActorWithTag.h"
 #include "Actions/Action_GoToWaitingRoom.h"
+#include "Actions/Action_GetTreated.h"
 
 
 void APatient::AddAvailableActions()
@@ -37,8 +38,14 @@ void APatient::AddAvailableActions()
 	GoToWaitingArea->AddPrecondition(TEXT("AtHospital"), true);
 	GoToWaitingArea->AddPrecondition(TEXT("HasRegistered"), true);
 	GoToWaitingArea->AddEffect(TEXT("WaitingForTreatment"), true);
-
 	Planner->AvailableActions.Add(GoToWaitingArea);
+
+	//Get Treated Action.
+	auto GetTreated = NewObject<UAction_GetTreated>();
+	GetTreated->AddPrecondition(TEXT("WaitingForTreatment"), true);
+	GetTreated->AddEffect(TEXT("BeCured"), true);
+	Planner->AvailableActions.Add(GetTreated);
+
 
 	//Go Home Action
 	auto GoHomeAction = NewObject<UAction_GoToActorWithTag>();
@@ -63,8 +70,8 @@ void APatient::AddGoals()
 	*/
 
 	
+	//Planner->AddGoal(TEXT("BeCured"), true);
 	Planner->AddGoal(TEXT("WaitingForTreatment"), true);
-//	Planner->AddGoal(TEXT("BeHome"), true);
 }
 
 void APatient::SetInitialState()
@@ -78,3 +85,11 @@ void APatient::SetInitialState()
 	Planner->AddState(TEXT("HasRegistered"), false);
 
 }
+
+void APatient::SendToBeCured(AActor* Cubicle)
+{
+	Inventory->AddItem(Cubicle);
+	Planner->RemoveGoal(TEXT("WaitingForTreatment"));
+	Planner->AddGoal(TEXT("BeHome"), true);
+}
+

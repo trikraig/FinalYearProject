@@ -21,5 +21,6 @@ protected:
 	void AddGoals() override;
 	//Starting state.
 	void SetInitialState() override;
-
+public:
+	void SendToBeCured(AActor* Cubicle);
 };

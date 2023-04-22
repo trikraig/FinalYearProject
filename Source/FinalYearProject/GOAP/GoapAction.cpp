@@ -34,7 +34,8 @@ bool UGoapAction::CheckProceduralPrecondition(AActor* Agent)
 
 bool UGoapAction::Perform(AActor* Agent, float Deltatime)
 {
-	return Agent != nullptr;
+	bIsDone = true;
+	return bIsDone;
 }
 
 bool UGoapAction::RequiresInRange()

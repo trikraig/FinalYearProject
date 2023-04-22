@@ -25,10 +25,14 @@ void UInventoryComponent::RemoveItem(AActor* Actor)
 
 AActor* UInventoryComponent::FindItemWithTag(const FName& Tag)
 {
-	return *Items.FindByPredicate([Tag](AActor* Item)
-		{
-			return Item->Tags.Contains(Tag);
-		});
+	if (Items.Num() > 0)
+	{
+		return *Items.FindByPredicate([Tag](AActor* Item)
+			{
+				return Item->Tags.Contains(Tag);
+			});
+	}
 
+	return nullptr;
 }
 

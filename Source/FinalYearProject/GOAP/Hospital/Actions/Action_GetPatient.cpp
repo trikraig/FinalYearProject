@@ -4,6 +4,7 @@
 #include "Action_GetPatient.h"
 #include "../../WorldStateSubSystem.h"
 #include "../../GoapAgent.h"
+#include "../Patient.h"
 
 bool UAction_GetPatient::CheckProceduralPrecondition(AActor* Actor)
 {
@@ -77,9 +78,9 @@ void UAction_GetPatient::PostPerform(AActor* Actor)
 	//Need to Give cubicle to the patient so know where to go.
 	if (TargetObject)
 	{
-		if (AGoapAgent* Patient = Cast<AGoapAgent>(TargetObject))
+		if (APatient* Patient = Cast<APatient>(TargetObject))
 		{
-			Patient->Inventory->AddItem(Cubicle);
+			Patient->SendToBeCured(Cubicle);
 		}
 	}
 
