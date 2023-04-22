@@ -18,5 +18,6 @@ public:
 
 	virtual bool CheckProceduralPrecondition(AActor* Agent) override;
 	bool RequiresInRange() override;
+	void PostPerform(AActor* Actor) override;
 	
 };

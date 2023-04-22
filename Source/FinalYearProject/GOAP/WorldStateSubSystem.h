@@ -40,4 +40,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	int32 TotalWaitingPatients = 0;
 
+	UPROPERTY(BlueprintReadOnly)
+	int32 TotalFreeCubicles = 0;
+
 };

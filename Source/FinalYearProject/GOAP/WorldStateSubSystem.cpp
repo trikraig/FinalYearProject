@@ -18,6 +18,7 @@ void UWorldStateSubSystem::Initialize(FSubsystemCollectionBase& Collection)
 	for (AActor* Actor : FoundActors)
 	{
 		Cubicles.Enqueue(Actor);
+		TotalFreeCubicles++;
 	}
 
 	if (!Cubicles.IsEmpty())

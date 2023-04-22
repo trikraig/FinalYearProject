@@ -5,6 +5,14 @@
 #include "Actions/Action_GetPatient.h"
 #include "Actions/Action_GetTreated.h"
 
+void ANurse::ReadyForNextPatient()
+{
+	Planner->RemoveState(TEXT("GetPatient"));
+	Planner->RemoveState(TEXT("CuredPatient"));
+	Planner->AddState(TEXT("GetPatient"), false);
+	Planner->AddState(TEXT("CuredPatient"), false);
+}
+
 void ANurse::AddAvailableActions()
 {
 	Super::AddAvailableActions();

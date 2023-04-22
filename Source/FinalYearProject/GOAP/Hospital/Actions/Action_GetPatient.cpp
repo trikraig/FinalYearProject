@@ -36,6 +36,7 @@ bool UAction_GetPatient::CheckProceduralPrecondition(AActor* Actor)
 			{
 				Agent->Inventory->AddItem(Cubicle);
 				WorldStateSubSystem->Cubicles.Pop();
+				WorldStateSubSystem->TotalFreeCubicles--;
 			}
 		}
 		else //If failed to find cubicle, undo the patient capturing and restore to world state.

@@ -14,6 +14,9 @@ class FINALYEARPROJECT_API ANurse : public AGoapAgent
 {
 	GENERATED_BODY()
 
+public:
+	void ReadyForNextPatient();
+
 protected:
 	//Any actions that can be performed by this type of agent
 	void AddAvailableActions() override;
