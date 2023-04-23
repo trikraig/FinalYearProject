@@ -140,12 +140,12 @@ void AGoapAgent::Idle_Update()
 
 	if (bResult)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Plan Generated")));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Plan Generated")));
 		SetFSMState(PERFORMACTION);
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Plan Failed")));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Plan Failed")));
 		SetFSMState(IDLE);
 	}
 }
@@ -186,7 +186,7 @@ void AGoapAgent::MoveTo_Update()
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("No Target Actor")));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("No Target Actor")));
 		}
 	}
 }
@@ -238,11 +238,11 @@ void AGoapAgent::PerformAction_Update(float DeltaTime)
 			{
 				//action failed so need to abort and replan
 				SetFSMState(IDLE);
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Action Failed - Plan Aborted")));
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Action Failed - Plan Aborted")));
 			}
 			else
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Performing Action")));
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Performing Action")));
 			}
 		}
 		else
@@ -255,7 +255,7 @@ void AGoapAgent::PerformAction_Update(float DeltaTime)
 	{
 		//No actions left. Return to idle state to replan
 		SetFSMState(IDLE);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("No actions left - Returning to Idle")));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("No actions left - Returning to Idle")));
 
 	}
 }

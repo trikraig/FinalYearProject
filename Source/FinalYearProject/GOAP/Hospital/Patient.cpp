@@ -77,8 +77,7 @@ void APatient::AddGoals()
 	* Curing taken care of by nurse, so only thing patient can do in their power is get themselves to hospital and be registed for treatment.
 	*/
 
-	
-	//Planner->AddGoal(TEXT("BeCured"), true);
+
 	Planner->AddGoal(TEXT("WaitingForTreatment"), true);
 }
 

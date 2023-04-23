@@ -28,7 +28,7 @@ public:
 	}
 	~Node()
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Node Memory Released")));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Node Memory Released")));
 	}
 };
 

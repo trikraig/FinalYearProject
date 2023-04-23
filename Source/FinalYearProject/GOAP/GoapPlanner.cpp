@@ -53,7 +53,7 @@ bool UGoapPlanner::Plan()
 	if (!bSuccess)
 	{
 		//No plan found.
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("NO PLAN FOUND")));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("NO PLAN FOUND")));
 		return false;
 	}
 
