@@ -46,6 +46,8 @@ public: /*Designer Facing Properties*/
 	/* An action often has to perform on an object. This is that object. Can be null. */
 	AActor* TargetObject = nullptr;
 
+	FText ActionName;
+
 public:
 
 	/*Reset any variables that need to be reset before planning happens again.*/

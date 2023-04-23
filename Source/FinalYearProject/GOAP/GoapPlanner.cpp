@@ -83,9 +83,20 @@ bool UGoapPlanner::Plan()
 		n = n->Parent;
 	}
 
-	for (Node* Action : Result)
+	for (Node* Node : Result)
 	{
-		CurrentActions.Enqueue(Action->Action); //add to back of queue
+		CurrentActions.Enqueue(Node->Action); //add to back of queue
+	}
+
+	//Temp - To Be Removed until nicer UI Implementation
+	if (APatient* Patient = Cast<APatient>(GetOwner()))
+	{
+		Patient->ClearPlanUI();
+
+		for (Node* Node : Result)
+		{
+			Patient->PopulateUIWithPlan(Node->Action->ActionName);
+		}
 	}
 
 	return !CurrentActions.IsEmpty();

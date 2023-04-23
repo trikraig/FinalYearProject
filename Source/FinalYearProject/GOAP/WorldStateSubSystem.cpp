@@ -42,3 +42,10 @@ void UWorldStateSubSystem::RemoveState(const FString& State)
 	WorldState.Remove(State);
 }
 
+AGoapAgent* UWorldStateSubSystem::GetPatient()
+{
+	APatient* Agent;
+	Patients.Peek(Agent);
+	return Agent;
+}
+

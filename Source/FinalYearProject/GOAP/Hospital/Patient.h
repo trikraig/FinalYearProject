@@ -23,4 +23,9 @@ protected:
 	void SetInitialState() override;
 public:
 	void SendToBeCured(AActor* Cubicle);
+
+	void PopulateUIWithPlan(const FText& ActionName);
+	void ClearPlanUI();
+
+
 };

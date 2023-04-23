@@ -7,6 +7,8 @@
 #include "GoapAction.h"
 #include "Hospital/Patient.h"
 #include "Containers/CircularQueue.h"
+#include "GoapAgent.h"
+#include "../UI/GoapPlanWidget.h"
 #include "WorldStateSubSystem.generated.h"
 
 /**
@@ -28,6 +30,12 @@ public:
 
 	void AddState(const FString& NewState, bool bSetting);
 	void RemoveState(const FString& NewState);
+
+	UFUNCTION()
+	AGoapAgent* GetPatient();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+	UGoapPlanWidget* PlanUI;
 
 
 public:
